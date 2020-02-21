@@ -11,11 +11,15 @@
     <modules>
         <module>core</module>
         <module>console</module>
+        <module>server</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
+
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <logback.version>1.2.3</logback.version>
         <lombok.version>1.18.12</lombok.version>
