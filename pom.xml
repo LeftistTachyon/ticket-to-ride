@@ -12,6 +12,7 @@
         <module>core</module>
         <module>console</module>
         <module>server</module>
+        <module>client</module>
     </modules>
 
     <properties>
@@ -39,6 +40,13 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.6.0</version>
+                <scope>test</scope>
             </dependency>
 
         </dependencies>

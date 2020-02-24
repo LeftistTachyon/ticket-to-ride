@@ -34,6 +34,11 @@ public class Player {
      */
     @Getter
     private int points = 0;
+    /**
+     * The amount of unused trains that this {@link Player} has.
+     */
+    @Getter
+    private int trains = 45;
 
     /**
      * Creates a new {@link Player}
@@ -138,6 +143,15 @@ public class Player {
      */
     public boolean hasRoute(Route route) {
         return routes.contains(route);
+    }
+
+    /**
+     * Removes the given number of trains from this {@link Player}'s stockpile.
+     *
+     * @param num the number of trains to remove
+     */
+    public void removeTrains(int num) {
+        trains -= num;
     }
 
     /**
