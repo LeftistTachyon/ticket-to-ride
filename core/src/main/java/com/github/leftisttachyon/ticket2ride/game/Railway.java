@@ -3,6 +3,7 @@ package com.github.leftisttachyon.ticket2ride.game;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.Set;
@@ -28,6 +29,11 @@ public class Railway {
      * A destination/endpoint of this railway
      */
     private final String dest1, dest2;
+    /**
+     * A boolean that stores whether this {@link Railway} has been claimed or not
+     */
+    @Setter
+    private boolean isClaimed = false;
 
     /**
      * Creates a new {@link Railway}

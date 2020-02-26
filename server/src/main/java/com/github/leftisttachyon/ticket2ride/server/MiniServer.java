@@ -77,17 +77,16 @@ public class MiniServer {
      * Called to start interaction with the user
      */
     public void go() {
-        try (PrintWriter out_ = out; 
-                BufferedReader in_ = in) {
+        try (out; in) {
             // Request a name from this client.  Keep requesting until
             // a name is submitted that is not already used.  Note that
             // checking for the existence of a name and adding the name
             // must be done while locking the set of names.
             while (true) {
-                out_.println("SUBMITNAME");
+                out.println("SUBMITNAME");
                 // notify("SUBMITNAME", false);
                 // notify(name, true);
-                if ((name = in_.readLine()) == null) {
+                if ((name = in.readLine()) == null) {
                     return;
                 }
                 if ("".equals(name) || "null".equals(name)) {
@@ -97,7 +96,7 @@ public class MiniServer {
                     if (!SERVERS.containsKey(name)) {
                         for (Map.Entry<String, MiniServer> entry : SERVERS.entrySet()) {
                             entry.getValue().out.println("NEWCLIENTtrue " + name);
-                            out_.println("NEWCLIENTfalse " + entry.getKey());
+                            out.println("NEWCLIENTfalse " + entry.getKey());
                         }
                         SERVERS.put(name, this);
                         break;
@@ -108,13 +107,13 @@ public class MiniServer {
             // Now that a successful name has been chosen, add the
             // socket's print writer to the set of all writers so
             // this client can receive broadcast messages.
-            out_.println("NAMEACCEPTED");
+            out.println("NAMEACCEPTED");
             // notify("NAMEACCEPTED", false);
 
             // Accept messages from this client and broadcast them.
             // Ignore other clients that cannot be broadcasted to.
             while (true) {
-                String line = in_.readLine();
+                String line = in.readLine();
                 // notify(line, true);
                 if (line == null) {
                     return;
@@ -123,7 +122,7 @@ public class MiniServer {
                 // println("\"" + line + "\"");
                 // handle input
                 if (line.equals("PING")) {
-                    out_.println("PONG");
+                    out.println("PONG");
                 } else if (line.startsWith("NLM")) {
                     String message = "NLM" + name + ": " + line.substring(3);
                     for (MiniServer h : SERVERS.values()) {
@@ -159,8 +158,7 @@ public class MiniServer {
                         String other = data[0];
                         if (SERVERS.containsKey(other)) {
                             MiniServer otherH = SERVERS.get(other);
-                            if (Boolean.parseBoolean(data[1])
-                                    && !BUSY.contains(otherH)) {
+                            if (Boolean.parseBoolean(data[1]) && !BUSY.contains(otherH)) {
                                 startMatch(otherH);
                             } else {
                                 otherH.out.println("CHALLENGE_Rfalse");
@@ -180,6 +178,7 @@ public class MiniServer {
             for (MiniServer h : SERVERS.values()) {
                 h.out.println("REMOVECLIENT" + name);
             }
+
             if (opponent != null) {
                 opponent.out.println("EXIT");
                 opponent.inGame = false;
@@ -204,9 +203,11 @@ public class MiniServer {
     private void exit() {
         inGame = false;
         BUSY.remove(this);
+
         for (MiniServer h : SERVERS.values()) {
             h.out.println("FREE" + name);
         }
+
         if (opponent != null) {
             opponent.out.println("EXIT");
             opponent.inGame = false;
@@ -230,6 +231,7 @@ public class MiniServer {
         opponent.out.println("CHALLENGE_Rtrue");
         opponent.opponent = this;
         opponent.inGame = true;
+
         for (MiniServer h : SERVERS.values()) {
             h.out.println("BUSY" + name);
             h.out.println("BUSY" + opponent.name);

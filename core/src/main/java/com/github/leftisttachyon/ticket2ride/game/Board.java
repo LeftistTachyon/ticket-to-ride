@@ -238,6 +238,30 @@ public class Board {
     }
 
     /**
+     * Gets the first {@code num} {@link Route}s from the {@link Stack} of {@link Route}s.
+     *
+     * @param num the number of {@link Route}s to remove from the {@link Stack}
+     * @return a {@link List} of {@link Route}s that were removed
+     */
+    public List<Route> getRoute(int num) {
+        List<Route> output = new LinkedList<>();
+        while (num-- > 0 && !routes.isEmpty()) {
+            output.add(routes.pop());
+        }
+
+        return output;
+    }
+
+    /**
+     * Adds the given {@link Collection} of {@link Route}s.
+     * @param toAdd the {@link Collection}
+     */
+    public void addRoutes(Collection<Route> toAdd) {
+        routes.addAll(toAdd);
+        Collections.shuffle(routes);
+    }
+
+    /**
      * Returns a {@link Set} that contains all the cities
      *
      * @return a {@link Set} that contains all the cities
