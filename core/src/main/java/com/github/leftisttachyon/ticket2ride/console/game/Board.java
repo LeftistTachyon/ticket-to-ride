@@ -20,7 +20,7 @@ public class Board {
     /**
      * An object that represents the map.
      */
-    private HashMap<String, HashMap<String, Railway>> map;
+    private HashMap<String, HashMap<String, List<Railway>>> map;
     /**
      * A {@link Stack} of {@link Route}s that can be taken.
      */
@@ -39,25 +39,43 @@ public class Board {
 
         map = new HashMap<>();
         for (Railway r : railways) {
-            HashMap<String, Railway> tempMap;
+            HashMap<String, List<Railway>> tempMap;
             String dest1 = r.getDest1(), dest2 = r.getDest2();
 
             if (map.containsKey(dest1)) {
-                map.get(dest1).put(dest2, r);
+                tempMap = map.get(dest1);
+                if (tempMap.containsKey(dest2)) {
+                    tempMap.get(dest2).add(r);
+                } else {
+                    LinkedList<Railway> list = new LinkedList<>();
+                    list.add(r);
+                    tempMap.put(dest2, list);
+                }
             } else {
                 tempMap = new HashMap<>();
                 map.put(dest1, tempMap);
 
-                tempMap.put(dest2, r);
+                LinkedList<Railway> list = new LinkedList<>();
+                list.add(r);
+                tempMap.put(dest2, list);
             }
 
             if (map.containsKey(dest2)) {
-                map.get(dest2).put(dest1, r);
+                tempMap = map.get(dest2);
+                if (tempMap.containsKey(dest1)) {
+                    tempMap.get(dest1).add(r);
+                } else {
+                    LinkedList<Railway> list = new LinkedList<>();
+                    list.add(r);
+                    tempMap.put(dest1, list);
+                }
             } else {
                 tempMap = new HashMap<>();
                 map.put(dest2, tempMap);
 
-                tempMap.put(dest1, r);
+                LinkedList<Railway> list = new LinkedList<>();
+                list.add(r);
+                tempMap.put(dest1, list);
             }
         }
 
@@ -252,11 +270,53 @@ public class Board {
 
     /**
      * Adds the given {@link Collection} of {@link Route}s.
+     *
      * @param toAdd the {@link Collection}
      */
     public void addRoutes(Collection<Route> toAdd) {
         routes.addAll(toAdd);
         Collections.shuffle(routes);
+    }
+
+    /**
+     * Returns a {@link List} containing all {@link Railway}s going out of the given city.
+     *
+     * @param start the city to find the routes coming out of
+     * @return a {@link List} containing all {@link Railway}s going out of the given city
+     */
+    public List<Railway> getRailways(String start) {
+//        map.get(start).values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+
+        Collection<List<Railway>> values = map.get(start).values();
+        LinkedList<Railway> output = new LinkedList<>();
+
+        for (List<Railway> value : values) {
+            output.addAll(value);
+        }
+
+        return output;
+    }
+
+    /**
+     * Gets a {@link List} of {@link String}s that represents cities that are adjacent to the given one.<br>
+     * Note: will throw a {@link NullPointerException} if the city is not contained in this {@link Board}
+     *
+     * @param start the city to look for adjacents for
+     * @return a {@link List} of {@link String}s of adjacent cities
+     */
+    public List<String> getAdjacents(String start) {
+        LinkedList<String> output = new LinkedList<>();
+
+        for (List<Railway> l : map.get(start).values()) {
+            for (Railway r : l) {
+                String s = r.getOtherDestination(start);
+                if (s != null && !output.contains(s)) {
+                    output.add(s);
+                }
+            }
+        }
+
+        return output;
     }
 
     /**
