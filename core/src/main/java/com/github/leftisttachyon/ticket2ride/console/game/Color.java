@@ -1,4 +1,4 @@
-package com.github.leftisttachyon.ticket2ride.game;
+package com.github.leftisttachyon.ticket2ride.console.game;
 
 /**
  * This class represents the various colors of edges and cards.

@@ -1,6 +1,6 @@
-package com.github.leftisttachyon.ticket2ride;
+package com.github.leftisttachyon.ticket2ride.console;
 
-import com.github.leftisttachyon.ticket2ride.game.Board;
+import com.github.leftisttachyon.ticket2ride.console.game.Board;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.github.leftisttachyon.ticket2ride.server;
+package com.github.leftisttachyon.ticket2ride.console.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;

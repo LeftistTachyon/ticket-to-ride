@@ -1,4 +1,4 @@
-package com.github.leftisttachyon.ticket2ride.game;
+package com.github.leftisttachyon.ticket2ride.console.game;
 
 import lombok.Getter;
 
