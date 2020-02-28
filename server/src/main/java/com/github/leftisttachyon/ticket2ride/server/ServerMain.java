@@ -1,4 +1,4 @@
-package com.github.leftisttachyon.ticket2ride.console.server;
+package com.github.leftisttachyon.ticket2ride.server;
 
 import javax.swing.*;
 import java.io.IOException;

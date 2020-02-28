@@ -1,4 +1,4 @@
-package com.github.leftisttachyon.ticket2ride.console.game;
+package com.github.leftisttachyon.ticket2ride.game;
 
 import java.util.*;
 
@@ -237,17 +237,23 @@ public class Board {
     }
 
     /**
-     * Picks a card on the visible four and replaces it with the top one from the stack.
+     * Picks a card on the visible four and replaces it with the top one from the stack.<br>
+     * If "drawing power" is not sufficient, then {@code null} is returned.
      *
-     * @param idx the index of the card in the four
+     * @param idx       the index of the card in the four
+     * @param drawPower the amount of "drawing power" that this player still has
      * @return the picked card
      */
-    public Color pickCard(int idx) {
+    public Color pickCard(int idx, int drawPower) {
         if (idx < 0 || idx >= sideCards.length) {
             throw new IllegalArgumentException("Invalid index");
         }
 
         Color c = sideCards[idx];
+        if (c == Color.RAINBOW && drawPower < 2 || c != Color.RAINBOW && drawPower > 1) {
+            return null;
+        }
+
         sideCards[idx] = cardStack.pop();
 
         return c;
@@ -259,7 +265,7 @@ public class Board {
      * @param num the number of {@link Route}s to remove from the {@link Stack}
      * @return a {@link List} of {@link Route}s that were removed
      */
-    public List<Route> getRoute(int num) {
+    public List<Route> getRoutes(int num) {
         List<Route> output = new LinkedList<>();
         while (num-- > 0 && !routes.isEmpty()) {
             output.add(routes.pop());
@@ -317,6 +323,43 @@ public class Board {
         }
 
         return output;
+    }
+
+    /**
+     * Claims a {@link Railway} equivalent to the given one for the given {@link Player} and eliminates all duplicates
+     * if requested.
+     *
+     * @param r                the {@link Railway} to claim. Please note that the given object may not be found in the given
+     *                         {@link Player}'s list of owned {@link Railway}s
+     * @param claimer          the {@link Player} to claim the {@link Railway} for
+     * @param removeDuplicates whether duplicate railways should be removed
+     * @return whether the operation was successful
+     */
+    boolean claimRailway(Railway r, Player claimer, boolean removeDuplicates) {
+        HashMap<String, List<Railway>> map1 = map.get(r.getDest1());
+        if (map1 == null) return false;
+
+        List<Railway> railways = map1.get(r.getDest2());
+        label:
+        {
+            for (Railway rail : railways) {
+                if (rail.getColor() == r.getColor()) {
+                    rail.setClaimed(true);
+                    claimer.addRailway(rail);
+                    break label;
+                }
+            }
+
+            return false;
+        }
+
+        if (removeDuplicates) {
+            for (Railway rail : railways) {
+                rail.setClaimed(true);
+            }
+        }
+
+        return true;
     }
 
     /**

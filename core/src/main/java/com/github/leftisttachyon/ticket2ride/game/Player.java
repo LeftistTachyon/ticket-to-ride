@@ -1,5 +1,6 @@
-package com.github.leftisttachyon.ticket2ride.console.game;
+package com.github.leftisttachyon.ticket2ride.game;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.*;
@@ -10,47 +11,54 @@ import java.util.*;
  * @author Jed Wang
  * @since 1.0.0
  */
+@Getter
 public class Player {
+    /**
+     * The name of this player
+     */
+    private final String name;
     /**
      * A {@link HashMap} that contains all of the cards that this player has.
      */
+    @Getter(AccessLevel.NONE)
     private HashMap<Color, Integer> cards;
     /**
      * A {@link List} of all owned {@link Railway}s.
      */
-    @Getter
     private Set<Railway> ownedRailways;
     /**
      * A {@link List} of all {@link Route}s that this {@link Player} is working towards.
      */
-    @Getter
-    private Set<Route> routes;
+    private List<Route> routes;
     /**
      * A {@link List} that stores the networks that this {@link Player} has connections to
      */
+    @Getter(AccessLevel.NONE)
     private List<Set<String>> network;
     /**
      * The amounts of points this player has
      */
-    @Getter
     private int points = 0;
     /**
      * The amount of unused trains that this {@link Player} has.
      */
-    @Getter
     private int trains = 45;
 
     /**
      * Creates a new {@link Player}
+     *
+     * @param name the name to use for this {@link Player}
      */
-    public Player() {
+    public Player(String name) {
+        this.name = name;
+
         cards = new HashMap<>();
         for (Color c : Color.values()) {
             if (c != Color.NONE) cards.put(c, 0);
         }
 
         ownedRailways = new HashSet<>();
-        routes = new HashSet<>();
+        routes = new LinkedList<>();
         network = new LinkedList<>();
     }
 

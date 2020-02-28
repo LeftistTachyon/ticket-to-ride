@@ -1,8 +1,8 @@
 package com.github.leftisttachyon.ticket2ride.console;
 
-import com.github.leftisttachyon.ticket2ride.console.game.Board;
-import com.github.leftisttachyon.ticket2ride.console.game.Color;
-import com.github.leftisttachyon.ticket2ride.console.game.Railway;
+import com.github.leftisttachyon.ticket2ride.game.Board;
+import com.github.leftisttachyon.ticket2ride.game.Color;
+import com.github.leftisttachyon.ticket2ride.game.Railway;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.github.leftisttachyon.ticket2ride.console.game;
+package com.github.leftisttachyon.ticket2ride.game;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

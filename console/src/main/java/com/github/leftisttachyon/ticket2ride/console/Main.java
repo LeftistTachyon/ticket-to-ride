@@ -1,4 +1,5 @@
 package com.github.leftisttachyon.ticket2ride.console;
+
 /**
  * The main class for this application.
  *
@@ -12,6 +13,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println(ConsoleColors.CYAN + "Egg?");
+        System.out.println(ConsoleColors.CYAN + "Egg?" +
+                ConsoleColors.RED_BACKGROUND_BRIGHT + "bleed" +
+                ConsoleColors.RESET + "reset");
     }
 }
