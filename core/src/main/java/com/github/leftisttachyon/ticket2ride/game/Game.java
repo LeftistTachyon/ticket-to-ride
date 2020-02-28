@@ -83,6 +83,8 @@ public class Game {
             drawPower--;
         }
 
+        notifyAction("PICK " + c);
+
         if (drawPower == 0) {
             advanceTurn();
         }
@@ -97,6 +99,8 @@ public class Game {
         Color c = board.pickRandom();
         players[turn].addCard(c);
 
+        notifyAction("PICK RANDOM");
+
         if (--drawPower == 0) {
             advanceTurn();
         }
@@ -109,11 +113,35 @@ public class Game {
         for (Route r : board.getRoutes(3)) {
             players[turn].addRoute(r);
         }
+
+        notifyAction("DRAWROUTES");
+
+        advanceTurn();
     }
 
-    // TODO: have a way for the players to put back routes
+    /**
+     * Puts a {@link Route} card back to the internally stored {@link java.util.Stack}.
+     *
+     * @param p     the {@link Player} to remote the {@link Route} from
+     * @param route the {@link Route} to put back
+     */
+    public boolean returnRoute(Player p, Route route) {
+        if (!p.removeRoute(route)) {
+            return false;
+        }
+        board.addRoute(route);
+
+        notifyAction("RETURNROUTE " + p.getName());
+        return true;
+    }
+
     // TODO: have a way for the players to claim railways
+    public void claimRailway(Railway railway, int rainbows) {
+        // check if it's doable
+        // do it
+    }
     // TODO: starting the game
+    // TODO: ending the game
 
     /**
      * Adds an {@link TurnChangeListener} to the internally stored {@link List}.

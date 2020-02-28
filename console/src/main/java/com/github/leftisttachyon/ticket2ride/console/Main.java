@@ -12,9 +12,19 @@ public class Main {
      *
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println(ConsoleColors.CYAN + "Egg?" +
-                ConsoleColors.RED_BACKGROUND_BRIGHT + "bleed" +
+                ConsoleColors.RED_BACKGROUND + "bleed" +
                 ConsoleColors.RESET + "reset");
+
+        Thread.sleep(1_000);
+        ConsoleColors.clearScreen();
+
+        System.out.println(ConsoleColors.BLUE_UNDERLINED + "Be calm." + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.RED_BRIGHT + "Be bold.");
+
+        Thread.sleep(10_000);
+        ConsoleColors.clearScreen();
     }
+
 }

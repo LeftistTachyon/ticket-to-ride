@@ -1,9 +1,9 @@
 package com.github.leftisttachyon.ticket2ride.console;
 
 /**
- * A class that stores ANSI color codes.
+ * A class that stores ANSI color codes and other font formatting.
  *
- * @author shakram02
+ * @author shakram02, anonymous
  * @since 1.0.0
  */
 public final class ConsoleColors {
@@ -245,8 +245,25 @@ public final class ConsoleColors {
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
 
     /**
+     * Bolds the font.
+     */
+    public static final String BOLD_FONT = "\033[0;1m";
+    /**
+     * Makes the font standard thickness.
+     */
+    public static final String STANDARD_FONT = "\033[0;0m";
+
+    /**
      * No instantiation for you!
      */
     private ConsoleColors() {
+    }
+
+    /**
+     * Clears the screen.
+     */
+    public static void clearScreen() {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
     }
 }

@@ -275,13 +275,12 @@ public class Board {
     }
 
     /**
-     * Adds the given {@link Collection} of {@link Route}s.
+     * Adds the given {@link Route} back to the internal {@link Stack} of {@link Route}s.
      *
-     * @param toAdd the {@link Collection}
+     * @param toAdd the {@link Route} to add back
      */
-    public void addRoutes(Collection<Route> toAdd) {
-        routes.addAll(toAdd);
-        Collections.shuffle(routes);
+    public void addRoute(Route toAdd) {
+        routes.add((int) (Math.random() * routes.size()), toAdd);
     }
 
     /**

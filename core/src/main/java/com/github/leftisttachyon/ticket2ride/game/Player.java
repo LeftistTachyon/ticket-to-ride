@@ -138,9 +138,10 @@ public class Player {
      * Removes the given {@link Route} from the list of owned {@link Route}s
      *
      * @param route the {@link Route} to remove
+     * @return whether the operation was successful
      */
-    public void removeRoute(Route route) {
-        routes.remove(route);
+    public boolean removeRoute(Route route) {
+        return routes.remove(route);
     }
 
     /**
