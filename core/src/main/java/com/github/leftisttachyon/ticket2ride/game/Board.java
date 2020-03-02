@@ -2,6 +2,8 @@ package com.github.leftisttachyon.ticket2ride.game;
 
 import java.util.*;
 
+import static com.github.leftisttachyon.ticket2ride.game.Color.*;
+
 /**
  * A class that represents the entire playing board.
  *
@@ -91,106 +93,106 @@ public class Board {
      */
     public static Board createUSBoard() {
         List<Railway> railways = new LinkedList<>();
-        railways.add(new Railway(1, Color.NONE, "Vancouver", "Seattle"));
-        railways.add(new Railway(1, Color.NONE, "Vancouver", "Seattle"));
-        railways.add(new Railway(1, Color.NONE, "Portland", "Seattle"));
-        railways.add(new Railway(1, Color.NONE, "Portland", "Seattle"));
-        railways.add(new Railway(3, Color.NONE, "Vancouver", "Calgary"));
-        railways.add(new Railway(4, Color.NONE, "Seattle", "Calgary"));
-        railways.add(new Railway(6, Color.YELLOW, "Seattle", "Helena"));
-        railways.add(new Railway(4, Color.NONE, "Calgary", "Helena"));
-        railways.add(new Railway(6, Color.WHITE, "Calgary", "Winnipeg"));
-        railways.add(new Railway(4, Color.BLUE, "Helena", "Winnipeg"));
-        railways.add(new Railway(6, Color.BLUE, "Portland", "Salt Lake City"));
-        railways.add(new Railway(5, Color.GREEN, "Portland", "San Francisco"));
-        railways.add(new Railway(5, Color.PINK, "Portland", "San Francisco"));
-        railways.add(new Railway(5, Color.ORANGE, "Salt Lake City", "San Francisco"));
-        railways.add(new Railway(5, Color.WHITE, "Salt Lake City", "San Francisco"));
-        railways.add(new Railway(3, Color.PINK, "Salt Lake City", "Helena"));
-        railways.add(new Railway(3, Color.ORANGE, "Salt Lake City", "Las Vegas"));
-        railways.add(new Railway(2, Color.NONE, "Los Angeles", "Las Vegas"));
-        railways.add(new Railway(3, Color.PINK, "Los Angeles", "San Francisco"));
-        railways.add(new Railway(3, Color.YELLOW, "Los Angeles", "San Francisco"));
-        railways.add(new Railway(3, Color.NONE, "Los Angeles", "Phoenix"));
-        railways.add(new Railway(6, Color.BLACK, "Los Angeles", "El Paso"));
-        railways.add(new Railway(3, Color.NONE, "Phoenix", "El Paso"));
-        railways.add(new Railway(5, Color.WHITE, "Phoenix", "Denver"));
-        railways.add(new Railway(3, Color.RED, "Salt Lake City", "Denver"));
-        railways.add(new Railway(3, Color.YELLOW, "Salt Lake City", "Denver"));
-        railways.add(new Railway(3, Color.GREEN, "Helena", "Denver"));
-        railways.add(new Railway(2, Color.NONE, "Santa Fe", "Denver"));
-        railways.add(new Railway(3, Color.NONE, "Santa Fe", "Phoenix"));
-        railways.add(new Railway(2, Color.NONE, "Santa Fe", "El Paso"));
-        railways.add(new Railway(6, Color.GREEN, "Houston", "El Paso"));
-        railways.add(new Railway(4, Color.RED, "Dallas", "El Paso"));
-        railways.add(new Railway(5, Color.YELLOW, "Oklahoma City", "El Paso"));
-        railways.add(new Railway(3, Color.BLUE, "Oklahoma City", "Santa Fe"));
-        railways.add(new Railway(4, Color.RED, "Oklahoma City", "Denver"));
-        railways.add(new Railway(4, Color.BLACK, "Kansas City", "Denver"));
-        railways.add(new Railway(4, Color.ORANGE, "Kansas City", "Denver"));
-        railways.add(new Railway(4, Color.PINK, "Omaha", "Denver"));
-        railways.add(new Railway(5, Color.RED, "Omaha", "Helena"));
-        railways.add(new Railway(6, Color.ORANGE, "Duluth", "Helena"));
-        railways.add(new Railway(4, Color.BLACK, "Duluth", "Winnipeg"));
-        railways.add(new Railway(6, Color.NONE, "Winnipeg", "Sault St. Marie"));
-        railways.add(new Railway(3, Color.NONE, "Duluth", "Sault St. Marie"));
-        railways.add(new Railway(2, Color.NONE, "Duluth", "Omaha"));
-        railways.add(new Railway(2, Color.NONE, "Duluth", "Omaha"));
-        railways.add(new Railway(1, Color.NONE, "Kansas City", "Omaha"));
-        railways.add(new Railway(1, Color.NONE, "Kansas City", "Omaha"));
-        railways.add(new Railway(2, Color.NONE, "Kansas City", "Oklahoma City"));
-        railways.add(new Railway(2, Color.NONE, "Kansas City", "Oklahoma City"));
-        railways.add(new Railway(2, Color.NONE, "Dallas", "Oklahoma City"));
-        railways.add(new Railway(2, Color.NONE, "Dallas", "Oklahoma City"));
-        railways.add(new Railway(1, Color.NONE, "Dallas", "Houston"));
-        railways.add(new Railway(1, Color.NONE, "Dallas", "Houston"));
-        railways.add(new Railway(2, Color.NONE, "New Orleans", "Houston"));
-        railways.add(new Railway(3, Color.GREEN, "New Orleans", "Little Rock"));
-        railways.add(new Railway(2, Color.NONE, "Dallas", "Little Rock"));
-        railways.add(new Railway(2, Color.NONE, "Oklahoma City", "Little Rock"));
-        railways.add(new Railway(2, Color.NONE, "Saint Louis", "Little Rock"));
-        railways.add(new Railway(2, Color.BLUE, "Saint Louis", "Kansas City"));
-        railways.add(new Railway(2, Color.PINK, "Saint Louis", "Kansas City"));
-        railways.add(new Railway(2, Color.WHITE, "Saint Louis", "Chicago"));
-        railways.add(new Railway(2, Color.GREEN, "Saint Louis", "Chicago"));
-        railways.add(new Railway(4, Color.BLUE, "Omaha", "Chicago"));
-        railways.add(new Railway(3, Color.RED, "Duluth", "Chicago"));
-        railways.add(new Railway(6, Color.PINK, "Duluth", "Toronto"));
-        railways.add(new Railway(2, Color.NONE, "Sault St. Marie", "Toronto"));
-        railways.add(new Railway(5, Color.BLACK, "Sault St. Marie", "Montreal"));
-        railways.add(new Railway(2, Color.NONE, "Boston", "Montreal"));
-        railways.add(new Railway(2, Color.NONE, "Boston", "Montreal"));
-        railways.add(new Railway(3, Color.BLUE, "New York", "Montreal"));
-        railways.add(new Railway(3, Color.NONE, "Toronto", "Montreal"));
-        railways.add(new Railway(4, Color.WHITE, "Toronto", "Chicago"));
-        railways.add(new Railway(2, Color.NONE, "Toronto", "Pittsburgh"));
-        railways.add(new Railway(3, Color.BLACK, "Chicago", "Pittsburgh"));
-        railways.add(new Railway(3, Color.ORANGE, "Chicago", "Pittsburgh"));
-        railways.add(new Railway(5, Color.GREEN, "Saint Louis", "Pittsburgh"));
-        railways.add(new Railway(4, Color.YELLOW, "Nashville", "Pittsburgh"));
-        railways.add(new Railway(2, Color.NONE, "Nashville", "Saint Louis"));
-        railways.add(new Railway(3, Color.WHITE, "Nashville", "Little Rock"));
-        railways.add(new Railway(1, Color.NONE, "Nashville", "Atlanta"));
-        railways.add(new Railway(4, Color.YELLOW, "New Orleans", "Atlanta"));
-        railways.add(new Railway(4, Color.ORANGE, "New Orleans", "Atlanta"));
-        railways.add(new Railway(5, Color.RED, "New Orleans", "Miami"));
-        railways.add(new Railway(5, Color.BLUE, "Atlanta", "Miami"));
-        railways.add(new Railway(4, Color.PINK, "Charleston", "Miami"));
-        railways.add(new Railway(2, Color.NONE, "Charleston", "Atlanta"));
-        railways.add(new Railway(2, Color.NONE, "Charleston", "Raleigh"));
-        railways.add(new Railway(2, Color.NONE, "Atlanta", "Raleigh"));
-        railways.add(new Railway(2, Color.NONE, "Atlanta", "Raleigh"));
-        railways.add(new Railway(3, Color.BLACK, "Nashville", "Raleigh"));
-        railways.add(new Railway(2, Color.NONE, "Pittsburgh", "Raleigh"));
-        railways.add(new Railway(2, Color.NONE, "Washington", "Raleigh"));
-        railways.add(new Railway(2, Color.NONE, "Washington", "Raleigh"));
-        railways.add(new Railway(2, Color.NONE, "Washington", "Pittsburgh"));
-        railways.add(new Railway(2, Color.ORANGE, "Washington", "New York"));
-        railways.add(new Railway(2, Color.BLACK, "Washington", "New York"));
-        railways.add(new Railway(2, Color.WHITE, "Pittsburgh", "New York"));
-        railways.add(new Railway(2, Color.GREEN, "Pittsburgh", "New York"));
-        railways.add(new Railway(2, Color.YELLOW, "Boston", "New York"));
-        railways.add(new Railway(2, Color.RED, "Boston", "New York"));
+        railways.add(new Railway(1, NONE, "Vancouver", "Seattle"));
+        railways.add(new Railway(1, NONE, "Vancouver", "Seattle"));
+        railways.add(new Railway(1, NONE, "Portland", "Seattle"));
+        railways.add(new Railway(1, NONE, "Portland", "Seattle"));
+        railways.add(new Railway(3, NONE, "Vancouver", "Calgary"));
+        railways.add(new Railway(4, NONE, "Seattle", "Calgary"));
+        railways.add(new Railway(6, YELLOW, "Seattle", "Helena"));
+        railways.add(new Railway(4, NONE, "Calgary", "Helena"));
+        railways.add(new Railway(6, WHITE, "Calgary", "Winnipeg"));
+        railways.add(new Railway(4, BLUE, "Helena", "Winnipeg"));
+        railways.add(new Railway(6, BLUE, "Portland", "Salt Lake City"));
+        railways.add(new Railway(5, GREEN, "Portland", "San Francisco"));
+        railways.add(new Railway(5, PINK, "Portland", "San Francisco"));
+        railways.add(new Railway(5, ORANGE, "Salt Lake City", "San Francisco"));
+        railways.add(new Railway(5, WHITE, "Salt Lake City", "San Francisco"));
+        railways.add(new Railway(3, PINK, "Salt Lake City", "Helena"));
+        railways.add(new Railway(3, ORANGE, "Salt Lake City", "Las Vegas"));
+        railways.add(new Railway(2, NONE, "Los Angeles", "Las Vegas"));
+        railways.add(new Railway(3, PINK, "Los Angeles", "San Francisco"));
+        railways.add(new Railway(3, YELLOW, "Los Angeles", "San Francisco"));
+        railways.add(new Railway(3, NONE, "Los Angeles", "Phoenix"));
+        railways.add(new Railway(6, BLACK, "Los Angeles", "El Paso"));
+        railways.add(new Railway(3, NONE, "Phoenix", "El Paso"));
+        railways.add(new Railway(5, WHITE, "Phoenix", "Denver"));
+        railways.add(new Railway(3, RED, "Salt Lake City", "Denver"));
+        railways.add(new Railway(3, YELLOW, "Salt Lake City", "Denver"));
+        railways.add(new Railway(3, GREEN, "Helena", "Denver"));
+        railways.add(new Railway(2, NONE, "Santa Fe", "Denver"));
+        railways.add(new Railway(3, NONE, "Santa Fe", "Phoenix"));
+        railways.add(new Railway(2, NONE, "Santa Fe", "El Paso"));
+        railways.add(new Railway(6, GREEN, "Houston", "El Paso"));
+        railways.add(new Railway(4, RED, "Dallas", "El Paso"));
+        railways.add(new Railway(5, YELLOW, "Oklahoma City", "El Paso"));
+        railways.add(new Railway(3, BLUE, "Oklahoma City", "Santa Fe"));
+        railways.add(new Railway(4, RED, "Oklahoma City", "Denver"));
+        railways.add(new Railway(4, BLACK, "Kansas City", "Denver"));
+        railways.add(new Railway(4, ORANGE, "Kansas City", "Denver"));
+        railways.add(new Railway(4, PINK, "Omaha", "Denver"));
+        railways.add(new Railway(5, RED, "Omaha", "Helena"));
+        railways.add(new Railway(6, ORANGE, "Duluth", "Helena"));
+        railways.add(new Railway(4, BLACK, "Duluth", "Winnipeg"));
+        railways.add(new Railway(6, NONE, "Winnipeg", "Sault St. Marie"));
+        railways.add(new Railway(3, NONE, "Duluth", "Sault St. Marie"));
+        railways.add(new Railway(2, NONE, "Duluth", "Omaha"));
+        railways.add(new Railway(2, NONE, "Duluth", "Omaha"));
+        railways.add(new Railway(1, NONE, "Kansas City", "Omaha"));
+        railways.add(new Railway(1, NONE, "Kansas City", "Omaha"));
+        railways.add(new Railway(2, NONE, "Kansas City", "Oklahoma City"));
+        railways.add(new Railway(2, NONE, "Kansas City", "Oklahoma City"));
+        railways.add(new Railway(2, NONE, "Dallas", "Oklahoma City"));
+        railways.add(new Railway(2, NONE, "Dallas", "Oklahoma City"));
+        railways.add(new Railway(1, NONE, "Dallas", "Houston"));
+        railways.add(new Railway(1, NONE, "Dallas", "Houston"));
+        railways.add(new Railway(2, NONE, "New Orleans", "Houston"));
+        railways.add(new Railway(3, GREEN, "New Orleans", "Little Rock"));
+        railways.add(new Railway(2, NONE, "Dallas", "Little Rock"));
+        railways.add(new Railway(2, NONE, "Oklahoma City", "Little Rock"));
+        railways.add(new Railway(2, NONE, "Saint Louis", "Little Rock"));
+        railways.add(new Railway(2, BLUE, "Saint Louis", "Kansas City"));
+        railways.add(new Railway(2, PINK, "Saint Louis", "Kansas City"));
+        railways.add(new Railway(2, WHITE, "Saint Louis", "Chicago"));
+        railways.add(new Railway(2, GREEN, "Saint Louis", "Chicago"));
+        railways.add(new Railway(4, BLUE, "Omaha", "Chicago"));
+        railways.add(new Railway(3, RED, "Duluth", "Chicago"));
+        railways.add(new Railway(6, PINK, "Duluth", "Toronto"));
+        railways.add(new Railway(2, NONE, "Sault St. Marie", "Toronto"));
+        railways.add(new Railway(5, BLACK, "Sault St. Marie", "Montreal"));
+        railways.add(new Railway(2, NONE, "Boston", "Montreal"));
+        railways.add(new Railway(2, NONE, "Boston", "Montreal"));
+        railways.add(new Railway(3, BLUE, "New York", "Montreal"));
+        railways.add(new Railway(3, NONE, "Toronto", "Montreal"));
+        railways.add(new Railway(4, WHITE, "Toronto", "Chicago"));
+        railways.add(new Railway(2, NONE, "Toronto", "Pittsburgh"));
+        railways.add(new Railway(3, BLACK, "Chicago", "Pittsburgh"));
+        railways.add(new Railway(3, ORANGE, "Chicago", "Pittsburgh"));
+        railways.add(new Railway(5, GREEN, "Saint Louis", "Pittsburgh"));
+        railways.add(new Railway(4, YELLOW, "Nashville", "Pittsburgh"));
+        railways.add(new Railway(2, NONE, "Nashville", "Saint Louis"));
+        railways.add(new Railway(3, WHITE, "Nashville", "Little Rock"));
+        railways.add(new Railway(1, NONE, "Nashville", "Atlanta"));
+        railways.add(new Railway(4, YELLOW, "New Orleans", "Atlanta"));
+        railways.add(new Railway(4, ORANGE, "New Orleans", "Atlanta"));
+        railways.add(new Railway(5, RED, "New Orleans", "Miami"));
+        railways.add(new Railway(5, BLUE, "Atlanta", "Miami"));
+        railways.add(new Railway(4, PINK, "Charleston", "Miami"));
+        railways.add(new Railway(2, NONE, "Charleston", "Atlanta"));
+        railways.add(new Railway(2, NONE, "Charleston", "Raleigh"));
+        railways.add(new Railway(2, NONE, "Atlanta", "Raleigh"));
+        railways.add(new Railway(2, NONE, "Atlanta", "Raleigh"));
+        railways.add(new Railway(3, BLACK, "Nashville", "Raleigh"));
+        railways.add(new Railway(2, NONE, "Pittsburgh", "Raleigh"));
+        railways.add(new Railway(2, NONE, "Washington", "Raleigh"));
+        railways.add(new Railway(2, NONE, "Washington", "Raleigh"));
+        railways.add(new Railway(2, NONE, "Washington", "Pittsburgh"));
+        railways.add(new Railway(2, ORANGE, "Washington", "New York"));
+        railways.add(new Railway(2, BLACK, "Washington", "New York"));
+        railways.add(new Railway(2, WHITE, "Pittsburgh", "New York"));
+        railways.add(new Railway(2, GREEN, "Pittsburgh", "New York"));
+        railways.add(new Railway(2, YELLOW, "Boston", "New York"));
+        railways.add(new Railway(2, RED, "Boston", "New York"));
 
         List<Route> routes = new LinkedList<>();
         routes.add(new Route("Denver", "El Paso", 4));
@@ -250,7 +252,7 @@ public class Board {
         }
 
         Color c = sideCards[idx];
-        if (c == Color.RAINBOW && drawPower < 2 || c != Color.RAINBOW && drawPower > 1) {
+        if (c == RAINBOW && drawPower < 2 || c != RAINBOW && drawPower > 1) {
             return null;
         }
 
@@ -396,17 +398,17 @@ public class Board {
      */
     private void populateCards() {
         for (int i = 0; i < 12; i++) {
-            cardStack.push(Color.WHITE);
-            cardStack.push(Color.BLUE);
-            cardStack.push(Color.GREEN);
-            cardStack.push(Color.YELLOW);
-            cardStack.push(Color.ORANGE);
-            cardStack.push(Color.RED);
-            cardStack.push(Color.PINK);
-            cardStack.push(Color.BLACK);
+            cardStack.push(WHITE);
+            cardStack.push(BLUE);
+            cardStack.push(GREEN);
+            cardStack.push(YELLOW);
+            cardStack.push(ORANGE);
+            cardStack.push(RED);
+            cardStack.push(PINK);
+            cardStack.push(BLACK);
         }
         for (int i = 0; i < 14; i++) {
-            cardStack.push(Color.RAINBOW);
+            cardStack.push(RAINBOW);
         }
 
         Collections.shuffle(cardStack);

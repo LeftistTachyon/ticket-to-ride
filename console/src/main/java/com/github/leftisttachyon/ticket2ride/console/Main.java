@@ -20,8 +20,8 @@ public class Main {
         Thread.sleep(1_000);
         ConsoleColors.clearScreen();
 
-        System.out.println(ConsoleColors.BLUE_UNDERLINED + "Be calm." + ConsoleColors.RESET);
-        System.out.println(ConsoleColors.RED_BRIGHT + "Be bold.");
+        System.out.println(ConsoleColors.BLUE_UNDERLINED + "Be calm.");
+        System.out.println(ConsoleColors.RED_BRIGHT + "Be bold." + ConsoleColors.RESET);
 
         Thread.sleep(10_000);
         ConsoleColors.clearScreen();
