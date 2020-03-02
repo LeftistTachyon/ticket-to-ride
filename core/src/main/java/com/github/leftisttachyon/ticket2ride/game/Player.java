@@ -85,6 +85,18 @@ public class Player {
     }
 
     /**
+     * Subtracts the given {@link Map} from the internal one.
+     *
+     * @param toRemove the amount of cards to remove
+     */
+    public void removeCards(Map<Color, Integer> toRemove) {
+        for (Map.Entry<Color, Integer> entry : toRemove.entrySet()) {
+            Color key = entry.getKey();
+            cards.put(key, Math.max(0, cards.get(key) - entry.getValue()));
+        }
+    }
+
+    /**
      * Adds a {@link Railway} to the collection of owned {@link Railway}s
      *
      * @param railway the {@link Railway} to add to the owned collection of {@link Railway}s
@@ -161,6 +173,17 @@ public class Player {
      */
     public void removeTrains(int num) {
         trains -= num;
+    }
+
+    /**
+     * Determines whether this {@link Player} has at least the given number of the given card type.
+     *
+     * @param type the type of the card to look for
+     * @param num  the number to have at least of in order to return {@code true}
+     * @return whether the criterion are met
+     */
+    boolean hasCards(Color type, int num) {
+        return cards.get(type) >= num;
     }
 
     /**

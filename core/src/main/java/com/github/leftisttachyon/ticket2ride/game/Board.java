@@ -325,6 +325,36 @@ public class Board {
     }
 
     /**
+     * Gets an equivalent {@link Railway} stored in the internals of this board.
+     *
+     * @param railway the {@link Railway} to get
+     * @return an equivalent {@link Railway}, if any exists
+     */
+    public Railway getRailway(Railway railway) {
+        if (!map.containsKey(railway.getDest1()))
+            return null;
+
+        HashMap<String, List<Railway>> tempMap = map.get(railway.getDest1());
+        if (!tempMap.containsKey(railway.getDest2()))
+            return null;
+
+        List<Railway> railways = tempMap.get(railway.getDest2());
+        int idx = railways.indexOf(railway);
+
+        if (idx == -1) return null;
+        else return railways.get(idx);
+    }
+
+    /**
+     * Returns a {@link Set} that contains all the cities
+     *
+     * @return a {@link Set} that contains all the cities
+     */
+    public Set<String> getCities() {
+        return map.keySet();
+    }
+
+    /**
      * Claims a {@link Railway} equivalent to the given one for the given {@link Player} and eliminates all duplicates
      * if requested.
      *
@@ -359,15 +389,6 @@ public class Board {
         }
 
         return true;
-    }
-
-    /**
-     * Returns a {@link Set} that contains all the cities
-     *
-     * @return a {@link Set} that contains all the cities
-     */
-    public Set<String> getCities() {
-        return map.keySet();
     }
 
     /**

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A class that represents all the aspects of the game.
@@ -136,9 +137,32 @@ public class Game {
     }
 
     // TODO: have a way for the players to claim railways
-    public void claimRailway(Railway railway, int rainbows) {
+    public boolean claimRailway(Railway railway, Map<Color, Integer> toUse) {
         // check if it's doable
+        if(railway == null) return false;
+
+        Railway temp = board.getRailway(railway);
+        if(temp == null || temp.isClaimed()) return false;
+
+        int cardsUsed = 0;
+        boolean isAnyColor = temp.getColor() == Color.NONE;
+        for (Map.Entry<Color, Integer> entry : toUse.entrySet()) {
+            Color cardColor = entry.getKey();
+            if (!players[turn].hasCards(cardColor, entry.getValue())) {
+                return false;
+            }
+
+            if (isAnyColor || cardColor == Color.RAINBOW || cardColor == temp.getColor()) {
+                cardsUsed += entry.getValue();
+            }
+        }
+
+        if(cardsUsed != temp.getLength())
+            return false;
+
         // do it
+        
+        return true;
     }
     // TODO: starting the game
     // TODO: ending the game

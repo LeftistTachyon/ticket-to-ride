@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Tests the {@link Board} class.
@@ -72,5 +73,22 @@ public class BoardTest {
         assertEquals(Set.of("a", "b", "c", "d"), b.getCities());
 
         assertEquals(List.of("b", "c", "d"), b.getAdjacents("a"));
+    }
+
+    /**
+     * Tests {@link Board#getRailway(Railway)}
+     */
+    @Test
+    public void getAdjacentTest() {
+        List<Railway> l = new LinkedList<>();
+        Railway e = new Railway(1, Color.WHITE, "a", "b");
+        l.add(e);
+        l.add(new Railway(1, Color.WHITE, "a", "b"));
+        Board b = new Board(l, Collections.emptyList());
+
+        System.out.println(e.hashCode());
+        Railway e1 = new Railway(1, Color.WHITE, "b", "a");
+        assertNotEquals(e.hashCode(), e1.hashCode());
+        assertEquals(e.hashCode(), b.getRailway(e1).hashCode());
     }
 }

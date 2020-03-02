@@ -1,11 +1,11 @@
 package com.github.leftisttachyon.ticket2ride.game;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -15,7 +15,6 @@ import java.util.Set;
  * @since 1.0.0
  */
 @Getter
-@EqualsAndHashCode
 public class Railway {
     /**
      * The length of this railway
@@ -99,5 +98,19 @@ public class Railway {
         } else if (dest2.equals(dest)) {
             return dest1;
         } else return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Railway)) return false;
+
+        Railway railway = (Railway) o;
+
+        if (length != railway.length || color != railway.color)
+            return false;
+
+        return Objects.equals(dest1, railway.dest1) && Objects.equals(dest2, railway.dest2) ||
+                Objects.equals(dest1, railway.dest2) && Objects.equals(dest2, railway.dest1);
     }
 }
