@@ -136,13 +136,19 @@ public class Game {
         return true;
     }
 
-    // TODO: have a way for the players to claim railways
+    /**
+     * Makes the current player claim the given {@link Railway} or equivalent one.
+     *
+     * @param railway the {@link Railway} to claim
+     * @param toUse   the cards to use to claim the {@link Railway}
+     * @return whether the operation was successful
+     */
     public boolean claimRailway(Railway railway, Map<Color, Integer> toUse) {
         // check if it's doable
-        if(railway == null) return false;
+        if (railway == null || drawPower != 2) return false;
 
         Railway temp = board.getRailway(railway);
-        if(temp == null || temp.isClaimed()) return false;
+        if (temp == null || temp.isClaimed()) return false;
 
         int cardsUsed = 0;
         boolean isAnyColor = temp.getColor() == Color.NONE;
@@ -157,11 +163,15 @@ public class Game {
             }
         }
 
-        if(cardsUsed != temp.getLength())
+        if (cardsUsed != temp.getLength())
             return false;
 
         // do it
-        
+        board.claimRailway(temp, players[turn], players.length > 3);
+        players[turn].removeTrains(temp.getLength());
+        players[turn].removeCards(toUse);
+
+        advanceTurn();
         return true;
     }
     // TODO: starting the game
