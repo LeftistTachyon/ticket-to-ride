@@ -2,6 +2,7 @@ package com.github.leftisttachyon.ticket2ride.game;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ public class Player {
     /**
      * The name of this player
      */
+    @Setter
     private final String name;
     /**
      * A {@link HashMap} that contains all of the cards that this player has.
@@ -77,11 +79,14 @@ public class Player {
      * @param cardColor the color of the card to add to this person's hand
      */
     public void addCard(Color cardColor) {
-        if (cardColor == Color.NONE) {
-            throw new IllegalArgumentException("Cannot add a \"NONE\" card to a player's hand");
+        switch (cardColor) {
+            case NONE:
+                throw new IllegalArgumentException("Cannot add a \"NONE\" card to a player's hand");
+            case RAINBOW:
+                throw new IllegalArgumentException("Cannot add a \"RAINBOW\" card to a player's hand");
+            default:
+                cards.put(cardColor, cards.get(cardColor) + 1);
         }
-
-        cards.put(cardColor, cards.get(cardColor) + 1);
     }
 
     /**

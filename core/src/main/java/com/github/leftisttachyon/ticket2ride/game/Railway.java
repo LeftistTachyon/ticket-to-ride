@@ -113,4 +113,13 @@ public class Railway {
         return Objects.equals(dest1, railway.dest1) && Objects.equals(dest2, railway.dest2) ||
                 Objects.equals(dest1, railway.dest2) && Objects.equals(dest2, railway.dest1);
     }
+
+    @Override
+    public int hashCode() {
+        int result = length;
+        result = 31 * result + color.hashCode();
+        result = 31 * result + 10 * (dest2.hashCode() + dest1.hashCode());
+        result = 31 * result + (isClaimed ? 1 : 0);
+        return result;
+    }
 }

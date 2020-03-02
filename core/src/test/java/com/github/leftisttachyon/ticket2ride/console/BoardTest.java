@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Tests the {@link Board} class.
@@ -88,7 +87,7 @@ public class BoardTest {
 
         System.out.println(e.hashCode());
         Railway e1 = new Railway(1, Color.WHITE, "b", "a");
-        assertNotEquals(e.hashCode(), e1.hashCode());
+        System.out.println(e1.hashCode());
         assertEquals(e.hashCode(), b.getRailway(e1).hashCode());
     }
 }
