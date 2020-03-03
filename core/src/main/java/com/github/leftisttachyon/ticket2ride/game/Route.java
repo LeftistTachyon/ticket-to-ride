@@ -62,4 +62,13 @@ public class Route {
         }
         return false;
     }
+
+    /**
+     * Returns a {@link String} that can be parsed into an equivalent object.
+     *
+     * @return a {@link String} that can be parsed into an equivalent object.
+     */
+    public String toMessageString() {
+        return dest1 + " " + dest2 + " " + value;
+    }
 }

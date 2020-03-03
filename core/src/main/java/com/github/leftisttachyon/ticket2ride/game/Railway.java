@@ -32,7 +32,7 @@ public class Railway {
      * A boolean that stores whether this {@link Railway} has been claimed or not
      */
     @Setter
-    private boolean isClaimed = false;
+    private transient boolean isClaimed = false;
 
     /**
      * Creates a new {@link Railway}
@@ -121,5 +121,14 @@ public class Railway {
         result = 31 * result + 10 * (dest2.hashCode() + dest1.hashCode());
         result = 31 * result + (isClaimed ? 1 : 0);
         return result;
+    }
+
+    /**
+     * Returns a {@link String} that can be parsed into an equivalent object.
+     *
+     * @return a {@link String} that can be parsed into an equivalent object.
+     */
+    public String toMessageString() {
+        return length + " " + color + " " + dest1 + dest2;
     }
 }

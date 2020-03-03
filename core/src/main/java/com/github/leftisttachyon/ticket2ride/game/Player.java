@@ -78,6 +78,8 @@ public class Player {
      */
     public void addPoints(int num) {
         points += num;
+
+        notifyListeners("POINTS " + num);
     }
 
     /**
@@ -90,6 +92,8 @@ public class Player {
             throw new IllegalArgumentException("Cannot add a \"NONE\" card to a player's hand");
         } else {
             cards.put(cardColor, cards.get(cardColor) + 1);
+
+            notifyListeners("CARD ADD " + cardColor);
         }
     }
 
@@ -100,8 +104,7 @@ public class Player {
      */
     public void removeCards(Map<Color, Integer> toRemove) {
         for (Map.Entry<Color, Integer> entry : toRemove.entrySet()) {
-            Color key = entry.getKey();
-            cards.put(key, Math.max(0, cards.get(key) - entry.getValue()));
+            removeCards(entry.getKey(), entry.getValue());
         }
     }
 
@@ -123,6 +126,8 @@ public class Player {
         }
 
         network.add(temp);
+
+        notifyListeners("RAIL ADD " + railway.toMessageString());
     }
 
     /**
@@ -134,6 +139,8 @@ public class Player {
         ownedRailways.remove(railway);
 
         regenerateNetwork();
+
+        notifyListeners("RAIL REMOVE "  + railway.toMessageString());
     }
 
     /**
@@ -153,6 +160,8 @@ public class Player {
      */
     public void addRoute(Route route) {
         routes.add(route);
+
+        notifyListeners("ROUTE ADD " + route.toMessageString());
     }
 
     /**
@@ -162,7 +171,10 @@ public class Player {
      * @return whether the operation was successful
      */
     public boolean removeRoute(Route route) {
-        return routes.remove(route);
+        boolean b = routes.remove(route);
+        notifyListeners("ROUTE REMOVE " + route.toMessageString());
+
+        return b;
     }
 
     /**
@@ -182,6 +194,8 @@ public class Player {
      */
     public void removeTrains(int num) {
         trains -= num;
+
+        notifyListeners("REMOVE-TRAINS " + num);
     }
 
     /**
@@ -232,6 +246,18 @@ public class Player {
      */
     boolean hasCards(Color type, int num) {
         return cards.get(type) >= num;
+    }
+
+    /**
+     * Removes the given number of color cards from this {@link Player}'s hand.
+     *
+     * @param key the type of card to remove
+     * @param num the number of cards to remove
+     */
+    void removeCards(Color key, int num) {
+        cards.put(key, Math.max(0, cards.get(key) - num));
+
+        notifyListeners("CARDS REMOVE " + key + " " + num);
     }
 
     /**
