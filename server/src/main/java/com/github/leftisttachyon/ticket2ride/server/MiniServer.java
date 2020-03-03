@@ -1,5 +1,7 @@
 package com.github.leftisttachyon.ticket2ride.server;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +18,7 @@ import java.util.Set;
  * @author Jed Wang
  * @since 0.9.1
  */
+@Slf4j
 public class MiniServer {
 
     /**
@@ -146,8 +149,7 @@ public class MiniServer {
                         if (SERVERS.containsKey(toChallenge)) {
                             SERVERS.get(toChallenge).out.println("CHALLENGE_C" + name);
                         } else {
-                            System.err.println("Opponent " + toChallenge
-                                    + " not found (149)");
+                            log.warn("Opponent {} not found (149)", toChallenge);
                         }
                     } else if (line.startsWith("CHALLENGE_R")) {
                         // Challenge response: accept or reject
@@ -164,14 +166,13 @@ public class MiniServer {
                                 otherH.out.println("CHALLENGE_Rfalse");
                             }
                         } else {
-                            System.err.println("Opponent " + other
-                                    + " not found (196)");
+                            log.info("Opponent {} not found (161)", other);
                         }
                     }
                 }
             }
         } catch (IOException e) {
-            println(e.toString());
+            log.warn("An IOException was thrown", e);
         } finally {
             // This client is going down!  Remove its name and its print
             // writer from the sets, and close its socket.
@@ -242,14 +243,5 @@ public class MiniServer {
 
         out.println("ST");
         opponent.out.println("ST");
-    }
-
-    /**
-     * Prints something with a carriage return afterwards
-     *
-     * @param s a string to println
-     */
-    public void println(String s) {
-        System.out.println(name + ": " + s);
     }
 }

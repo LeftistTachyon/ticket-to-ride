@@ -3,6 +3,7 @@ package com.github.leftisttachyon.ticket2ride.console;
 import com.github.leftisttachyon.ticket2ride.game.Board;
 import com.github.leftisttachyon.ticket2ride.game.Color;
 import com.github.leftisttachyon.ticket2ride.game.Railway;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Jed Wang
  * @since 1.0.0
  */
+@Slf4j
 public class BoardTest {
     /**
      * Tests the US version of the board
@@ -27,7 +29,7 @@ public class BoardTest {
     @Test
     public void usCreationTest() {
         Board b = Board.createUSBoard();
-        System.out.println(b.getCities());
+        log.info("{}", b.getCities());
         assertEquals(Set.of("Vancouver", "Seattle", "Portland", "San Francisco",
                 "Los Angeles", "Calgary", "Helena", "Salt Lake City", "Las Vegas",
                 "Phoenix", "Winnipeg", "Duluth", "Omaha", "Denver", "Kansas City",
@@ -50,7 +52,7 @@ public class BoardTest {
         l.add(new Railway(1, Color.WHITE, "a", "b"));
         Board b = new Board(l, Collections.emptyList());
 
-        System.out.println(b.getCities());
+        log.info("{}", b.getCities());
         assertEquals(Set.of("a", "b"), b.getCities());
 
         assertEquals(b.getRailways("a"), l);
@@ -85,9 +87,9 @@ public class BoardTest {
         l.add(new Railway(1, Color.WHITE, "a", "b"));
         Board b = new Board(l, Collections.emptyList());
 
-        System.out.println(e.hashCode());
         Railway e1 = new Railway(1, Color.WHITE, "b", "a");
-        System.out.println(e1.hashCode());
+        log.info("{} vs. {}", e.hashCode(), e1.hashCode());
+
         assertEquals(e.hashCode(), b.getRailway(e1).hashCode());
     }
 }

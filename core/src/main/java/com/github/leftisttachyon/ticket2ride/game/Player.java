@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
@@ -18,11 +20,10 @@ public class Player {
      * The name of this player
      */
     @Setter
-    private final String name;
+    private String name;
     /**
      * A {@link HashMap} that contains all of the cards that this player has.
      */
-    @Getter(AccessLevel.NONE)
     private HashMap<Color, Integer> cards;
     /**
      * A {@link List} of all owned {@link Railway}s.
@@ -37,6 +38,11 @@ public class Player {
      */
     @Getter(AccessLevel.NONE)
     private List<Set<String>> network;
+    /**
+     * A {@link List} of {@link ActionListener}s that listen to actions related to this {@link Player}
+     */
+    @Getter(AccessLevel.NONE)
+    private List<ActionListener> listeners;
     /**
      * The amounts of points this player has
      */
@@ -62,6 +68,7 @@ public class Player {
         ownedRailways = new HashSet<>();
         routes = new LinkedList<>();
         network = new LinkedList<>();
+        listeners = new LinkedList<>();
     }
 
     /**
@@ -79,13 +86,10 @@ public class Player {
      * @param cardColor the color of the card to add to this person's hand
      */
     public void addCard(Color cardColor) {
-        switch (cardColor) {
-            case NONE:
-                throw new IllegalArgumentException("Cannot add a \"NONE\" card to a player's hand");
-            case RAINBOW:
-                throw new IllegalArgumentException("Cannot add a \"RAINBOW\" card to a player's hand");
-            default:
-                cards.put(cardColor, cards.get(cardColor) + 1);
+        if (cardColor == Color.NONE) {
+            throw new IllegalArgumentException("Cannot add a \"NONE\" card to a player's hand");
+        } else {
+            cards.put(cardColor, cards.get(cardColor) + 1);
         }
     }
 
@@ -181,6 +185,45 @@ public class Player {
     }
 
     /**
+     * Gets the number of cards this {@link Player} has.
+     *
+     * @return the number of cards this {@link Player} has
+     */
+    public int getNumCards() {
+        int output = 0;
+        for (int num : cards.values()) {
+            output += num;
+        }
+
+        return output;
+    }
+
+    /**
+     * Adds an {@link ActionListener} to the internal {@link List} of listeners that is listening to this object.
+     *
+     * @param listener the {@link ActionListener} to add
+     */
+    public void addActionListener(ActionListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Removes an {@link ActionListener} from the internal {@link List} of listeners that is listening to this object.
+     *
+     * @param listener the {@link ActionListener} to add
+     */
+    public void removeActionListener(ActionListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Clears all {@link ActionListener}s from this object.
+     */
+    public void clearActionListeners() {
+        listeners.clear();
+    }
+
+    /**
      * Determines whether this {@link Player} has at least the given number of the given card type.
      *
      * @param type the type of the card to look for
@@ -208,6 +251,20 @@ public class Player {
             }
 
             network.add(temp);
+        }
+    }
+
+    /**
+     * Notifies the associated listeners of the given message
+     *
+     * @param message the message to send to the listeners
+     */
+    private void notifyListeners(String message) {
+        if (!listeners.isEmpty()) {
+            ActionEvent evt = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, message);
+            for (ActionListener listener : listeners) {
+                listener.actionPerformed(evt);
+            }
         }
     }
 }

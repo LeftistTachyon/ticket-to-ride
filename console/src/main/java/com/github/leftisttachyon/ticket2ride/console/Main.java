@@ -13,6 +13,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws InterruptedException {
+        ConsoleColors.clearScreen();
         System.out.println(ConsoleColors.CYAN + "Egg?" +
                 ConsoleColors.RED_BACKGROUND + "bleed" +
                 ConsoleColors.RESET + "reset");

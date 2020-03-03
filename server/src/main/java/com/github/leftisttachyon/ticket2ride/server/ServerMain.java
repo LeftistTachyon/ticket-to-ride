@@ -1,5 +1,7 @@
 package com.github.leftisttachyon.ticket2ride.server;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.net.BindException;
@@ -12,6 +14,7 @@ import java.net.Socket;
  * @author Jed Wang
  * @since 0.9.1
  */
+@Slf4j
 public class ServerMain {
 
     /**
@@ -21,7 +24,7 @@ public class ServerMain {
      * @throws IOException if something goes wrong
      */
     public static void main(String[] args) throws IOException {
-        System.out.println("The ticket to ride server is running.");
+        log.info("The ticket to ride server is running.");
 
         try (ServerSocket listener = new ServerSocket(9001)) {
             while (true) {
@@ -32,7 +35,7 @@ public class ServerMain {
                 new Thread(h::go).start();
             }
         } catch (BindException be) {
-            System.err.println("Cannot start server: " + be.getMessage());
+            log.error("Cannot start server", be);
             JOptionPane.showMessageDialog(null, "Cannot start server",
                     be.getMessage(), JOptionPane.ERROR_MESSAGE);
             System.exit(1);

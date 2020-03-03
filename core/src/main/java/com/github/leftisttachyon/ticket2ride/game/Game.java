@@ -4,6 +4,7 @@ import com.github.leftisttachyon.ticket2ride.game.action.TurnChangeEvent;
 import com.github.leftisttachyon.ticket2ride.game.action.TurnChangeListener;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @author Jed Wang
  * @since 1.0.0
  */
+@Slf4j
 @Getter
 public class Game {
     /**
@@ -74,7 +76,10 @@ public class Game {
      */
     public boolean pickCard(int idx) {
         Color c = board.pickCard(idx, drawPower);
-        if (c == null) return false;
+        if (c == null) {
+            log.warn("c is null?!");
+            return false;
+        }
 
         players[turn].addCard(c);
 
@@ -152,9 +157,11 @@ public class Game {
 
         int cardsUsed = 0;
         boolean isAnyColor = temp.getColor() == Color.NONE;
+        Player current = players[turn];
+
         for (Map.Entry<Color, Integer> entry : toUse.entrySet()) {
             Color cardColor = entry.getKey();
-            if (!players[turn].hasCards(cardColor, entry.getValue())) {
+            if (!current.hasCards(cardColor, entry.getValue())) {
                 return false;
             }
 
@@ -167,15 +174,46 @@ public class Game {
             return false;
 
         // do it
-        board.claimRailway(temp, players[turn], players.length > 3);
-        players[turn].removeTrains(temp.getLength());
-        players[turn].removeCards(toUse);
+        board.claimRailway(temp, current, players.length > 3);
+        current.removeTrains(temp.getLength());
+        current.removeCards(toUse);
+        switch (temp.getLength()) {
+            case 1:
+                current.addPoints(1);
+                break;
+            case 2:
+                current.addPoints(2);
+                break;
+            case 3:
+                current.addPoints(4);
+                break;
+            case 4:
+                current.addPoints(7);
+                break;
+            case 5:
+                current.addPoints(10);
+                break;
+            case 6:
+                current.addPoints(15);
+                break;
+        }
 
         advanceTurn();
         return true;
     }
     // TODO: starting the game
     // TODO: ending the game
+
+    /**
+     * Gets the {@link Player} with the given turn number. If the given turn number is invalid, an
+     * {@link IndexOutOfBoundsException} is thrown.
+     *
+     * @param num the turn number for the {@link Player} to return
+     * @return the {@link Player} associated with the given turn number.
+     */
+    public Player getPlayer(int num) {
+        return players[num];
+    }
 
     /**
      * Adds an {@link TurnChangeListener} to the internally stored {@link List}.

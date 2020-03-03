@@ -1,5 +1,7 @@
 package com.github.leftisttachyon.ticket2ride.game;
 
+import lombok.Getter;
+
 import java.util.*;
 
 import static com.github.leftisttachyon.ticket2ride.game.Color.*;
@@ -18,6 +20,7 @@ public class Board {
     /**
      * An array of {@link Color} objects that represent cards that just sit there next to the stack.
      */
+    @Getter
     private Color[] sideCards;
     /**
      * An object that represents the map.
@@ -252,7 +255,7 @@ public class Board {
         }
 
         Color c = sideCards[idx];
-        if (c == RAINBOW && drawPower < 2 || c != RAINBOW && drawPower > 1) {
+        if (c == RAINBOW && drawPower < 2 || c != RAINBOW && drawPower < 1) {
             return null;
         }
 
