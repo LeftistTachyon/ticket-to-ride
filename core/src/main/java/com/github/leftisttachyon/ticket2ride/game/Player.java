@@ -145,7 +145,7 @@ public class Player {
 
         regenerateNetwork();
 
-        notifyListeners("RAIL REMOVE "  + railway.toMessageString());
+        notifyListeners("RAIL REMOVE " + railway.toMessageString());
     }
 
     /**
@@ -193,6 +193,20 @@ public class Player {
     }
 
     /**
+     * Determines whether the given {@link Route} is completed.
+     *
+     * @param route the {@link Route} to evaluate
+     * @return whether the given {@link Route} is completed
+     */
+    public boolean isCompleted(Route route) {
+        for (Set<String> set : network) {
+            if (route.containsEndpoint(set)) return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Removes the given number of trains from this {@link Player}'s stockpile.
      *
      * @param num the number of trains to remove
@@ -215,6 +229,44 @@ public class Player {
         }
 
         return output;
+    }
+
+    /**
+     * Gets the most amount of contiguous trains this {@link Player} has.
+     *
+     * @return the most amount of contiguous trains
+     */
+    public int getLongestConnection() {
+        HashMap<Set<String>, Integer> temp = new HashMap<>();
+        outer:
+        for (Railway r : ownedRailways) {
+            for (Set<String> s : temp.keySet()) {
+                if (s.contains(r.getDest1())) {
+                    s.add(r.getDest2());
+                    temp.put(s, temp.get(s) + r.getLength());
+                    continue outer;
+                } else if (s.contains(r.getDest2())) {
+                    s.add(r.getDest1());
+                    temp.put(s, temp.get(s) + r.getLength());
+                    continue outer;
+                }
+            }
+
+            // doesn't exist yet, create new one
+            Set<String> s = new HashSet<>();
+            s.add(r.getDest1());
+            s.add(r.getDest2());
+            temp.put(s, r.getLength());
+        }
+
+        int largest = -1;
+        for (int i : temp.values()) {
+            if (i > largest) {
+                largest = i;
+            }
+        }
+
+        return largest;
     }
 
     /**

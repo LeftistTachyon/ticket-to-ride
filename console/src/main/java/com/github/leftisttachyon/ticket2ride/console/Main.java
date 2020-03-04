@@ -33,6 +33,8 @@ public class Main {
             g.addTurnChangeListener(evt -> System.out.println(ConsoleColors.BLUE_BRIGHT + "Changed turn to " +
                     evt.getNewTurn() + "." + ConsoleColors.RESET));
 
+            g.startGame();
+
             for (int i = 0; i < 10; i++) {
                 int j = 0;
 

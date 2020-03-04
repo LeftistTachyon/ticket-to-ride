@@ -221,14 +221,25 @@ public class Game {
                 player.addRoute(r);
             }
         }
+
+        notifyAction("STARTGAME");
     }
 
     /**
      * Ends the game.
      */
     public void endGame() {
-        // TODO: sum up points
-        // TODO: kill every player
+        for (Player p : players) {
+            for (Route r : p.getRoutes()) {
+                if (p.isCompleted(r)) {
+                    p.addPoints(r.getValue());
+                } else {
+                    p.addPoints(-r.getValue());
+                }
+            }
+        }
+
+        notifyAction("ENDGAME");
     }
 
     /**
