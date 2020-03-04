@@ -27,9 +27,9 @@ public class Board {
      */
     private HashMap<String, HashMap<String, List<Railway>>> map;
     /**
-     * A {@link Stack} of {@link Route}s that can be taken.
+     * A {@link Queue} of {@link Route}s that can be taken.
      */
-    private Stack<Route> routes;
+    private Queue<Route> routes;
 
     /**
      * Creates a new {@link Board} given the map structure.
@@ -37,7 +37,7 @@ public class Board {
      * @param railways the {@link Railway}s to create the map with.
      * @param routes   the {@link Route}s associated with this map
      */
-    public Board(Collection<Railway> railways, Collection<Route> routes) {
+    public Board(Collection<Railway> railways, List<Route> routes) {
         cardStack = new Stack<>();
         sideCards = new Color[5];
         populateCards();
@@ -84,9 +84,11 @@ public class Board {
             }
         }
 
-        this.routes = new Stack<>();
-        this.routes.addAll(routes);
-        Collections.shuffle(this.routes);
+        Random r = new Random();
+        this.routes = new LinkedList<>();
+        for (int idx = r.nextInt(routes.size()); !routes.isEmpty(); idx = r.nextInt(routes.size())) {
+            routes.add(routes.remove(idx));
+        }
     }
 
     /**
@@ -273,7 +275,7 @@ public class Board {
     public List<Route> getRoutes(int num) {
         List<Route> output = new LinkedList<>();
         while (num-- > 0 && !routes.isEmpty()) {
-            output.add(routes.pop());
+            output.add(routes.remove());
         }
 
         return output;
@@ -285,7 +287,7 @@ public class Board {
      * @param toAdd the {@link Route} to add back
      */
     public void addRoute(Route toAdd) {
-        routes.add((int) (Math.random() * routes.size()), toAdd);
+        routes.offer(toAdd);
     }
 
     /**

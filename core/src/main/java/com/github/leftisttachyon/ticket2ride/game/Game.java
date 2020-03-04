@@ -48,6 +48,11 @@ public class Game {
      */
     @Getter(AccessLevel.NONE)
     private int drawPower = 2;
+    /**
+     * An integer that stores how many turns in the game. Normally, {@code -1} is stored in this variable.
+     */
+    @Getter(AccessLevel.NONE)
+    private int turnsLeft = -1;
 
     /**
      * Creates a new {@link Game} object.
@@ -61,6 +66,7 @@ public class Game {
         players = new Player[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
             players[i] = new Player(null);
+            players[i].setTurn(i);
         }
 
         turnChangeListeners = new LinkedList<>();
@@ -77,7 +83,7 @@ public class Game {
     public boolean pickCard(int idx) {
         Color c = board.pickCard(idx, drawPower);
         if (c == null) {
-            log.warn("c is null?!");
+            log.debug("Cannot pick the card up at the index {}", idx);
             return false;
         }
 
@@ -89,7 +95,7 @@ public class Game {
             drawPower--;
         }
 
-        notifyAction("PICK " + c);
+        notifyAction("PICK " + c + " " + idx);
 
         if (drawPower == 0) {
             advanceTurn();
@@ -201,8 +207,29 @@ public class Game {
         advanceTurn();
         return true;
     }
-    // TODO: starting the game
-    // TODO: ending the game
+
+    /**
+     * Starts the game.
+     */
+    public void startGame() {
+        for (Player player : players) {
+            for (int j = 0; j < 4; j++) {
+                player.addCard(board.pickRandom());
+            }
+
+            for (Route r : board.getRoutes(3)) {
+                player.addRoute(r);
+            }
+        }
+    }
+
+    /**
+     * Ends the game.
+     */
+    public void endGame() {
+        // TODO: sum up points
+        // TODO: kill every player
+    }
 
     /**
      * Gets the {@link Player} with the given turn number. If the given turn number is invalid, an
@@ -271,6 +298,19 @@ public class Game {
     private void advanceTurn() {
         drawPower = 2;
         turn = (turn + 1) % players.length;
+
+        if (turnsLeft == -1) {
+            for (Player p : players) {
+                if (p.getTrains() < 3 && turnsLeft == -1) {
+                    turnsLeft = players.length;
+                    break;
+                }
+            }
+        } else {
+            if (--turnsLeft == 0) {
+                endGame();
+            }
+        }
 
         if (!turnChangeListeners.isEmpty()) {
             TurnChangeEvent evt = new TurnChangeEvent(this, ActionEvent.ACTION_PERFORMED, "Turn changed", turn);

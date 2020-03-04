@@ -51,6 +51,11 @@ public class Player {
      * The amount of unused trains that this {@link Player} has.
      */
     private int trains = 45;
+    /**
+     * The turn number associated with this {@link Player}
+     */
+    @Setter
+    private int turn = -1;
 
     /**
      * Creates a new {@link Player}
