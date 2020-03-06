@@ -341,10 +341,6 @@ public class Board {
         return output;
     }
 
-    public List<Railway> altGetUnclaimedRailways(String start) {
-        return map.get(start).values().stream().flatMap(Collection::stream).filter(r -> !r.isClaimed()).collect(Collectors.toList());
-    }
-
     /**
      * Gets a {@link List} of {@link String}s that represents cities that are adjacent to the given one.<br>
      * Note: will throw a {@link NullPointerException} if the city is not contained in this {@link Board}
@@ -416,7 +412,7 @@ public class Board {
         {
             for (Railway rail : railways) {
                 if (rail.getColor() == r.getColor()) {
-                    rail.setClaimed(true);
+                    rail.setClaimedBy(claimer.getTurn());
                     claimer.addRailway(rail);
                     break label;
                 }
@@ -427,7 +423,7 @@ public class Board {
 
         if (removeDuplicates) {
             for (Railway rail : railways) {
-                rail.setClaimed(true);
+                rail.setClaimedBy(Integer.MAX_VALUE);
             }
         }
 

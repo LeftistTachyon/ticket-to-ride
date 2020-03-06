@@ -32,7 +32,7 @@ public class Railway {
      * A boolean that stores whether this {@link Railway} has been claimed or not
      */
     @Setter
-    private transient boolean isClaimed = false;
+    private transient int claimedBy = -1;
 
     /**
      * Creates a new {@link Railway}
@@ -100,6 +100,15 @@ public class Railway {
         } else return null;
     }
 
+    /**
+     * Returns whether this {@link Railway} is claimed by someone.
+     *
+     * @return whether this {@link Railway} is claimed by someone
+     */
+    public boolean isClaimed() {
+        return claimedBy != -1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,7 +128,7 @@ public class Railway {
         int result = length;
         result = 31 * result + color.hashCode();
         result = 31 * result + 10 * (dest2.hashCode() + dest1.hashCode());
-        result = 31 * result + (isClaimed ? 1 : 0);
+        result = 31 * result + claimedBy;
         return result;
     }
 

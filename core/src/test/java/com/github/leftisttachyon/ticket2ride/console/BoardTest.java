@@ -124,7 +124,7 @@ public class BoardTest {
      */
     @Test
     public void getUnclaimedRailwaysSpeedtest() {
-        Board b = Board.createUSBoard();
+        /*Board b = Board.createUSBoard();
         Set<String> cities = b.getCities();
         double start, total;
 
@@ -142,6 +142,6 @@ public class BoardTest {
         }
         total = System.nanoTime() - start;
         total /= 1_000_000;
-        System.out.printf("Alt:      %.3f ms%n", total);
+        System.out.printf("Alt:      %.3f ms%n", total);*/
     }
 }
