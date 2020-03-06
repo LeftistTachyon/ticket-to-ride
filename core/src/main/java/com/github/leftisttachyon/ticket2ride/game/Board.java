@@ -1,8 +1,10 @@
 package com.github.leftisttachyon.ticket2ride.game;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.github.leftisttachyon.ticket2ride.game.Color.*;
 
@@ -12,6 +14,7 @@ import static com.github.leftisttachyon.ticket2ride.game.Color.*;
  * @author Jed Wang
  * @since 1.0.0
  */
+@Slf4j
 public class Board {
     /**
      * A {@link Stack} that represents the stack of train cards that sit there.
@@ -84,11 +87,17 @@ public class Board {
             }
         }
 
+        log.trace("Up to previous");
+
         Random r = new Random();
         this.routes = new LinkedList<>();
-        for (int idx = r.nextInt(routes.size()); !routes.isEmpty(); idx = r.nextInt(routes.size())) {
-            routes.add(routes.remove(idx));
+        for (; !routes.isEmpty(); ) {
+            int idx = r.nextInt(routes.size());
+            log.trace("Removing #{} (out of {})", idx, routes.size());
+            this.routes.add(routes.remove(idx));
         }
+
+        log.trace("Up to new");
     }
 
     /**
@@ -198,6 +207,7 @@ public class Board {
         railways.add(new Railway(2, GREEN, "Pittsburgh", "New York"));
         railways.add(new Railway(2, YELLOW, "Boston", "New York"));
         railways.add(new Railway(2, RED, "Boston", "New York"));
+        log.trace("All railways created");
 
         List<Route> routes = new LinkedList<>();
         routes.add(new Route("Denver", "El Paso", 4));
@@ -230,6 +240,7 @@ public class Board {
         routes.add(new Route("Los Angeles", "Miami", 20));
         routes.add(new Route("Los Angeles", "New York City", 21));
         routes.add(new Route("Seattle", "New York", 22));
+        log.trace("All routes added");
 
         return new Board(railways, routes);
     }
@@ -297,8 +308,6 @@ public class Board {
      * @return a {@link List} containing all {@link Railway}s going out of the given city
      */
     public List<Railway> getRailways(String start) {
-//        map.get(start).values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-
         Collection<List<Railway>> values = map.get(start).values();
         LinkedList<Railway> output = new LinkedList<>();
 
@@ -307,6 +316,33 @@ public class Board {
         }
 
         return output;
+    }
+
+    public List<Railway> altGetRailways(String start) {
+        return map.get(start).values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a {@link List} containing all unclaimed {@link Railway}s going out of the given city.
+     *
+     * @param start the city to find the routes coming out of
+     * @return a {@link List} containing all unclaimed {@link Railway}s going out of the given city
+     */
+    public List<Railway> getUnclaimedRailways(String start) {
+        Collection<List<Railway>> values = map.get(start).values();
+        LinkedList<Railway> output = new LinkedList<>();
+
+        for (List<Railway> value : values) {
+            for (Railway r : value) {
+                if(!r.isClaimed()) output.add(r);
+            }
+        }
+
+        return output;
+    }
+
+    public List<Railway> altGetUnclaimedRailways(String start) {
+        return map.get(start).values().stream().flatMap(Collection::stream).filter(r -> !r.isClaimed()).collect(Collectors.toList());
     }
 
     /**

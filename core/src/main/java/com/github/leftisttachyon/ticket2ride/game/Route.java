@@ -18,6 +18,7 @@ public class Route {
     /**
      * Destinations for this route
      */
+    @Getter
     private final String dest1, dest2;
     /**
      * The point value for completing this {@link Route}

@@ -4,14 +4,14 @@ import com.github.leftisttachyon.ticket2ride.game.Board;
 import com.github.leftisttachyon.ticket2ride.game.Color;
 import com.github.leftisttachyon.ticket2ride.game.Railway;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Tests the {@link Board} class.
@@ -91,5 +91,57 @@ public class BoardTest {
         log.info("{} vs. {}", e.hashCode(), e1.hashCode());
 
         assertEquals(e.hashCode(), b.getRailway(e1).hashCode());
+    }
+
+    /**
+     * Tests {@link Board#getRailways(String)}
+     */
+    @Test
+    public void getRailwaysSpeedtest() {
+        Board b = Board.createUSBoard();
+        Set<String> cities = b.getCities();
+        double start, total;
+
+        start = System.nanoTime();
+        for (String s : cities) {
+            b.getRailways(s);
+        }
+        total = System.nanoTime() - start;
+        total /= 1_000_000;
+        System.out.printf("Original: %.3f ms%n", total);
+
+        start = System.nanoTime();
+        for (String s : cities) {
+            b.altGetRailways(s);
+        }
+        total = System.nanoTime() - start;
+        total /= 1_000_000;
+        System.out.printf("Alt:      %.3f ms%n", total);
+    }
+
+    /**
+     * Tests {@link Board#getUnclaimedRailways(String)}
+     */
+    @Test
+    public void getUnclaimedRailwaysSpeedtest() {
+        Board b = Board.createUSBoard();
+        Set<String> cities = b.getCities();
+        double start, total;
+
+        start = System.nanoTime();
+        for (String s : cities) {
+            b.getUnclaimedRailways(s);
+        }
+        total = System.nanoTime() - start;
+        total /= 1_000_000;
+        System.out.printf("Original: %.3f ms%n", total);
+
+        start = System.nanoTime();
+        for (String s : cities) {
+            b.altGetUnclaimedRailways(s);
+        }
+        total = System.nanoTime() - start;
+        total /= 1_000_000;
+        System.out.printf("Alt:      %.3f ms%n", total);
     }
 }

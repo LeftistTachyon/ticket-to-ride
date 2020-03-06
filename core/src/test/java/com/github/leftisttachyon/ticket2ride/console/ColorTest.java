@@ -1,9 +1,9 @@
 package com.github.leftisttachyon.ticket2ride.console;
 
 import com.github.leftisttachyon.ticket2ride.game.Color;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link Color} class.

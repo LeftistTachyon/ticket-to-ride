@@ -2,13 +2,13 @@ package com.github.leftisttachyon.ticket2ride.console;
 
 import com.github.leftisttachyon.ticket2ride.game.*;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Map;
 
 import static com.github.leftisttachyon.ticket2ride.game.Color.NONE;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * A class that tests {@link Game}
@@ -67,6 +67,6 @@ public class GameTest {
         log.info("{}", Arrays.toString(g.getBoard().getSideCards()));
 
         assertEquals(1, p.getNumCards());
-        assertEquals(1, p.getCards().get(temp));
+        assertEquals(1, (int) p.getCards().get(temp));
     }
 }

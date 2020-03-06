@@ -254,6 +254,26 @@ public class Game {
     }
 
     /**
+     * Returns the {@link Player} whose turn it currently is.
+     *
+     * @return the {@link Player} whose turn it currently is
+     */
+    public Player getCurrentPlayer() {
+        return players[turn];
+    }
+
+    /**
+     * Returns whether this game has ended
+     *
+     * @return whether this game has ended
+     */
+    public boolean gameEnded() {
+        return turnsLeft != 0;
+    }
+
+    // listener code
+
+    /**
      * Adds an {@link TurnChangeListener} to the internally stored {@link List}.
      *
      * @param listener the {@link TurnChangeListener} to add
@@ -307,6 +327,10 @@ public class Game {
      * Advances turns.
      */
     private void advanceTurn() {
+        if (turnsLeft == 0) {
+            return;
+        }
+
         drawPower = 2;
         turn = (turn + 1) % players.length;
 
@@ -317,10 +341,8 @@ public class Game {
                     break;
                 }
             }
-        } else {
-            if (--turnsLeft == 0) {
-                endGame();
-            }
+        } else if (--turnsLeft == 0) {
+            endGame();
         }
 
         if (!turnChangeListeners.isEmpty()) {
