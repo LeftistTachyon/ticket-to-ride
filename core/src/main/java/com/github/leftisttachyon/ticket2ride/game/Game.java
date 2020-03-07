@@ -180,7 +180,9 @@ public class Game {
             return false;
 
         // do it
-        board.claimRailway(temp, current, players.length > 3);
+        if(!board.claimRailway(temp, current, players.length > 3))
+            return false;
+
         current.removeTrains(temp.getLength());
         current.removeCards(toUse);
         switch (temp.getLength()) {

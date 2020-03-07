@@ -423,7 +423,9 @@ public class Board {
 
         if (removeDuplicates) {
             for (Railway rail : railways) {
-                rail.setClaimedBy(Integer.MAX_VALUE);
+                if (rail.getColor() != r.getColor()) {
+                    rail.setClaimedBy(Integer.MAX_VALUE);
+                }
             }
         }
 
