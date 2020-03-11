@@ -318,7 +318,7 @@ public class Main {
                             if (line.matches("\\d+")) {
                                 int i = Math.min(Integer.parseInt(line), eventLog.size());
                                 for (int j = 0; j < i; j++) {
-                                    System.out.println(eventLog.get(i));
+                                    System.out.println(eventLog.get(j));
                                 }
 
                                 break;
@@ -365,5 +365,7 @@ public class Main {
         System.out.println("Prints out all the railways that the current player has.");
         System.out.println(PURPLE + "VIEWMAP" + RESET);
         System.out.println("Views a portion of the map.");
+        System.out.println(PURPLE + "PRINTLOG" + RESET);
+        System.out.println("Prints out the last number of log entries.");
     }
 }
