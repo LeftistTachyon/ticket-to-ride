@@ -39,7 +39,7 @@ public class Main {
             g.addActionListener(evt -> {
                 String x = GREEN_BRIGHT + evt.getActionCommand() + RESET;
                 System.out.println(x);
-                eventLog.add(x);
+                eventLog.add(0, x);
             });
             g.addTurnChangeListener(evt -> {
                 String x = BLUE_BRIGHT + "Changed turn to " + evt.getNewTurn() + "." + RESET;
