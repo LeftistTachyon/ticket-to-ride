@@ -61,6 +61,10 @@ public class Game {
      * @param numPlayers the number of {@link Player}s to include in this game
      */
     public Game(Board board, int numPlayers) {
+        if (numPlayers <= 0) {
+            throw new IllegalArgumentException("The number of players needs to be greater than 0!");
+        }
+
         this.board = board;
 
         players = new Player[numPlayers];
@@ -120,15 +124,27 @@ public class Game {
 
     /**
      * Makes the current player draw three route cards.
+     *
+     * @return whether the operation was successful
      */
-    public void drawRoutes() {
+    public boolean drawRoutes() {
+        if (drawPower != 2) {
+            return false;
+        }
+
         for (Route r : board.getRoutes(3)) {
             players[turn].addRoute(r);
         }
 
         notifyAction("DRAWROUTES");
 
+        Player temp = getCurrentPlayer();
+
         advanceTurn();
+
+        temp.incrementReturnAllowance();
+
+        return true;
     }
 
     /**
@@ -183,7 +199,12 @@ public class Game {
         if(!board.claimRailway(temp, current, players.length > 3))
             return false;
 
-        current.removeTrains(temp.getLength());
+        if (current.getTrains() >= temp.getLength()) {
+            current.removeTrains(temp.getLength());
+        } else {
+            return false;
+        }
+
         current.removeCards(toUse);
         switch (temp.getLength()) {
             case 1:
@@ -206,6 +227,8 @@ public class Game {
                 break;
         }
 
+        notifyAction("CLAIM " + temp.toMessageString());
+
         advanceTurn();
         return true;
     }
@@ -222,6 +245,8 @@ public class Game {
             for (Route r : board.getRoutes(3)) {
                 player.addRoute(r);
             }
+
+            player.incrementReturnAllowance();
         }
 
         notifyAction("STARTGAME");
@@ -332,6 +357,8 @@ public class Game {
         if (turnsLeft == 0) {
             return;
         }
+
+        players[turn].clearReturnAllowance();
 
         drawPower = 2;
         turn = (turn + 1) % players.length;

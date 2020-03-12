@@ -78,9 +78,9 @@ public class Railway {
     }
 
     /**
-     * Returns both destinations as a {@link Set}.
+     * Returns both destinations as an immutable {@link Set}.
      *
-     * @return both destinations as a {@link Set}.
+     * @return both destinations as an immutable {@link Set}.
      */
     public Set<String> getDestinations() {
         return Set.of(dest1, dest2);
@@ -138,6 +138,6 @@ public class Railway {
      * @return a {@link String} that can be parsed into an equivalent object.
      */
     public String toMessageString() {
-        return length + " " + color + " " + dest1 + dest2;
+        return length + "|" + color + "|" + dest1 + "|" + dest2;
     }
 }

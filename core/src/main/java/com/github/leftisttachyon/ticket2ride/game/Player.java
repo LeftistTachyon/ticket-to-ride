@@ -50,12 +50,17 @@ public class Player {
     /**
      * The amount of unused trains that this {@link Player} has.
      */
-    private int trains = 45;
+    private int trains = 4;
     /**
      * The turn number associated with this {@link Player}
      */
     @Setter
     private int turn = -1;
+    /**
+     * The maximum number of cards this {@link Player} can return now
+     */
+    @Getter(AccessLevel.NONE)
+    private int returnAllowance = 0;
 
     /**
      * Creates a new {@link Player}
@@ -121,7 +126,7 @@ public class Player {
     public void addRailway(Railway railway) {
         ownedRailways.add(railway);
 
-        Set<String> temp = railway.getDestinations();
+        Set<String> temp = new HashSet<>(railway.getDestinations());
         for (int i = network.size() - 1; i >= 0; i--) {
             Set<String> tempList = network.get(i);
             if (railway.containsEndpoint(tempList)) {
@@ -176,10 +181,14 @@ public class Player {
      * @return whether the operation was successful
      */
     public boolean removeRoute(Route route) {
-        boolean b = routes.remove(route);
-        notifyListeners("ROUTE REMOVE " + route.toMessageString());
+        if (returnAllowance > 0) {
+            returnAllowance--;
+        } else return false;
 
-        return b;
+        if (routes.remove(route)) {
+            notifyListeners("ROUTE REMOVE " + route.toMessageString());
+            return true;
+        } else return false;
     }
 
     /**
@@ -268,6 +277,31 @@ public class Player {
 
         return largest;
     }
+
+    /**
+     * Increments the return allowance.
+     */
+    public void incrementReturnAllowance() {
+        returnAllowance++;
+    }
+
+    /**
+     * Clears the return allowance.
+     */
+    public void clearReturnAllowance() {
+        returnAllowance = 0;
+    }
+
+    /**
+     * Returns whether this player is allowed to return a card or not.
+     *
+     * @return whether this player is allowed to return a card or not
+     */
+    public boolean canReturnCard() {
+        return returnAllowance > 0;
+    }
+
+    // listener code
 
     /**
      * Adds an {@link ActionListener} to the internal {@link List} of listeners that is listening to this object.

@@ -70,6 +70,6 @@ public class Route {
      * @return a {@link String} that can be parsed into an equivalent object.
      */
     public String toMessageString() {
-        return dest1 + " " + dest2 + " " + value;
+        return dest1 + "|" + dest2 + "|" + value;
     }
 }

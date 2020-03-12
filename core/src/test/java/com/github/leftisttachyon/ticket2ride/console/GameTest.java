@@ -69,4 +69,21 @@ public class GameTest {
         assertEquals(1, p.getNumCards());
         assertEquals(1, (int) p.getCards().get(temp));
     }
+
+    /**
+     * Tests {@link Game#startGame()}
+     */
+    @Test
+    public void startGameTest() {
+        int num = 1;
+        Game g = new Game(Board.createUSBoard(), num);
+
+        g.startGame();
+
+        for (Player p : g.getPlayers()) {
+            assertTrue(p.canReturnCard());
+        }
+
+        assertTrue(g.getCurrentPlayer().canReturnCard());
+    }
 }

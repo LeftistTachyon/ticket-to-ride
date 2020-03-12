@@ -26,7 +26,9 @@ public class Main {
     public static void main(String[] args) {
         log.trace("One");
         try (BufferedReader in = new BufferedReader(new InputStreamReader(System.in))) {
-            List<String> eventLog = new LinkedList<>();
+            LinkedList<String> eventLog = new LinkedList<>();
+
+            boolean[] loop = {true};
 
             log.trace("Two");
             Board b = Board.createUSBoard();
@@ -39,12 +41,16 @@ public class Main {
             g.addActionListener(evt -> {
                 String x = GREEN_BRIGHT + evt.getActionCommand() + RESET;
                 System.out.println(x);
-                eventLog.add(0, x);
+                eventLog.add(x);
+
+                if ("ENDGAME".equals(evt.getActionCommand())) {
+                    loop[0] = false;
+                }
             });
             g.addTurnChangeListener(evt -> {
                 String x = BLUE_BRIGHT + "Changed turn to " + evt.getNewTurn() + "." + RESET;
                 System.out.println(x);
-                eventLog.add(0, x);
+                eventLog.add(x);
             });
 
             for (int i = 0; i < players; i++) {
@@ -61,7 +67,7 @@ public class Main {
 
             String line;
             outer:
-            while (true) {
+            while (loop[0]) {
                 System.out.print(">> ");
 
                 line = in.readLine();
@@ -77,10 +83,10 @@ public class Main {
                     case "CLS":
                         ConsoleColors.clearScreen();
                         continue outer;
-                    case "RAND":
+                    case "RANDCARD":
                         g.pickRandom();
                         continue outer;
-                    case "PICK":
+                    case "PICKCARD":
                         while (true) {
                             System.out.println("Enter the index of the card you want to pick.");
                             Color[] sideCards = g.getBoard().getSideCards();
@@ -112,8 +118,7 @@ public class Main {
                             }
                         }
                         continue outer;
-                    case "CLAIM":
-                        Player p = g.getCurrentPlayer();
+                    case "CLAIMRAIL":
                         inner:
                         while (true) {
                             System.out.println("Type the name of the city which the railway starts on.");
@@ -210,8 +215,12 @@ public class Main {
                         }
 
                         continue outer;
-                    case "RETURN":
-                        p = g.getCurrentPlayer();
+                    case "RETURNROUTE":
+                        Player p = g.getCurrentPlayer();
+                        if (!p.canReturnCard()) {
+                            System.out.println(RED + "You can't return any route cards right now." + RESET);
+                            continue outer;
+                        }
                         List<Route> routes = p.getRoutes();
                         while (true) {
                             System.out.println("Enter the index of the route card that you would like to return.");
@@ -235,15 +244,20 @@ public class Main {
                                     System.out.println(RED + "That's not a valid index." + RESET);
                                 }
 
-                                g.returnRoute(p, routes.get(i));
-                                break;
+                                if (g.returnRoute(p, routes.get(i))) {
+                                    break;
+                                } else {
+                                    System.out.println(RED + "You can't return that route card." + RESET);
+                                }
                             } else {
                                 System.out.println(RED + "That's not a valid number." + RESET);
                             }
                         }
                         continue outer;
-                    case "DRAW":
-                        g.drawRoutes();
+                    case "DRAWROUTES":
+                        if (!g.drawRoutes()) {
+                            System.out.println(RED + "You can't draw any routes." + RESET);
+                        }
                         continue outer;
                     case "SEEROUTES":
                         System.out.println(BLUE + "Currently owned routes:");
@@ -307,17 +321,22 @@ public class Main {
                                     RESET, PURPLE, r.getDest2(), RESET, r.getColor().toString(), +r.getLength());
                         }
                         continue outer;
+                    case "GETTRAINS":
+                        p = g.getCurrentPlayer();
+                        System.out.println("You currently have " + PURPLE + p.getTrains() + RESET + " trains");
+                        continue outer;
                     case "PRINTLOG":
                         while (true) {
-                            System.out.println("Enter how many lines to print out");
+                            System.out.println("Enter how many lines to print out:");
                             System.out.print(">  ");
 
-                            if((line = in.readLine()) == null)
+                            if ((line = in.readLine()) == null)
                                 break outer;
 
                             if (line.matches("\\d+")) {
-                                int i = Math.min(Integer.parseInt(line), eventLog.size());
-                                for (int j = 0; j < i; j++) {
+                                int size = eventLog.size();
+                                int i = Math.min(Integer.parseInt(line), size);
+                                for (int j = size - i; j < size; j++) {
                                     System.out.println(eventLog.get(j));
                                 }
 
@@ -325,6 +344,12 @@ public class Main {
                             } else {
                                 System.out.println(RED + "That's an invalid number." + RESET);
                             }
+                        }
+                        continue outer;
+                    case "GETPOINTS":
+                        for (Player player : g.getPlayers()) {
+                            System.out.println(CYAN + player.getName() + RESET + " has " + PURPLE + player.getPoints() +
+                                    RESET + " points");
                         }
                         continue outer;
                 }
@@ -347,15 +372,15 @@ public class Main {
         System.out.println("Prints out a listing of all commands that can be executed. It's what you're looking at right now.");
         System.out.println(PURPLE + "CLS or CLEAR" + RESET);
         System.out.println("Clears the screen.");
-        System.out.println(PURPLE + "RAND" + RESET);
+        System.out.println(PURPLE + "RANDCARD" + RESET);
         System.out.println("Picks a random card from the stack.");
-        System.out.println(PURPLE + "PICK" + RESET);
+        System.out.println(PURPLE + "PICKCARD" + RESET);
         System.out.println("Picks a selected card from the side pile.");
-        System.out.println(PURPLE + "CLAIM" + RESET);
+        System.out.println(PURPLE + "CLAIMRAIL" + RESET);
         System.out.println("Claims a certain railway.");
-        System.out.println(PURPLE + "RETURN" + RESET);
+        System.out.println(PURPLE + "RETURNROUTE" + RESET);
         System.out.println("Returns a route card back, if possible.");
-        System.out.println(PURPLE + "DRAW" + RESET);
+        System.out.println(PURPLE + "DRAWROUTES" + RESET);
         System.out.println("Draws three new route cards.");
         System.out.println(PURPLE + "SEEROUTES" + RESET);
         System.out.println("Prints out all the route cards that the current player has.");
@@ -363,6 +388,10 @@ public class Main {
         System.out.println("Prints out all the train cards that the current player has.");
         System.out.println(PURPLE + "SEERAILS" + RESET);
         System.out.println("Prints out all the railways that the current player has.");
+        System.out.println(PURPLE + "GETPOINTS" + RESET);
+        System.out.println("Prints out all the scores of the players.");
+        System.out.println(PURPLE + "GETTRAINS" + RESET);
+        System.out.println("Prints out the number of trains you currently have.");
         System.out.println(PURPLE + "VIEWMAP" + RESET);
         System.out.println("Views a portion of the map.");
         System.out.println(PURPLE + "PRINTLOG" + RESET);
