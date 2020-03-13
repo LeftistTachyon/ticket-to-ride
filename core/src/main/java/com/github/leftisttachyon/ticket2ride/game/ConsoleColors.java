@@ -1,4 +1,4 @@
-package com.github.leftisttachyon.ticket2ride.console;
+package com.github.leftisttachyon.ticket2ride.game;
 
 /**
  * A class that stores ANSI color codes and other font formatting.
@@ -265,5 +265,14 @@ public final class ConsoleColors {
     public static void clearScreen() {
         System.out.println("\033[H\033[2J");
         System.out.flush();
+    }
+
+    /**
+     * A main method to test out colors.
+     *
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        System.out.println(RED + "Blue?" + RESET);
     }
 }

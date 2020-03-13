@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
+import static com.github.leftisttachyon.ticket2ride.game.ConsoleColors.RESET;
+
 /**
  * A class that represents a path between two cities.
  *
@@ -130,6 +132,24 @@ public class Railway {
         result = 31 * result + 10 * (dest2.hashCode() + dest1.hashCode());
         result = 31 * result + claimedBy;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s%d units; %-6s; %s to %-18s%s",
+                color.getANSIColor(), length, color.toString(), dest1, dest2, RESET);
+    }
+
+    /**
+     * Returns a {@link String} representation of this object.
+     *
+     * @param dest the destination to place first; if the given {@link String} is not a destination, {@code null} will
+     *             be substituted for the other destination
+     * @return a {@link String} representation of this object
+     */
+    public String toString(String dest) {
+        return String.format("%s%d units; %-6s; %s to %-18s%s",
+                color.getANSIColor(), length, color.toString(), dest, getOtherDestination(dest), RESET);
     }
 
     /**

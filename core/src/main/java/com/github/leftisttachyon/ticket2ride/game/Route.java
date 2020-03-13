@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import static com.github.leftisttachyon.ticket2ride.game.ConsoleColors.PURPLE;
+import static com.github.leftisttachyon.ticket2ride.game.ConsoleColors.RESET;
+
 /**
  * A class that represents a route card.
  *
@@ -71,5 +74,10 @@ public class Route {
      */
     public String toMessageString() {
         return dest1 + "|" + dest2 + "|" + value;
+    }
+
+    @Override
+    public String toString() {
+        return PURPLE + dest1 + RESET + " to " + PURPLE + dest2 + RESET + " : " + value;
     }
 }

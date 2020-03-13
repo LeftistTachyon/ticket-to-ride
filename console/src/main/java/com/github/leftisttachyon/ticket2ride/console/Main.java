@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-import static com.github.leftisttachyon.ticket2ride.console.ConsoleColors.*;
+import static com.github.leftisttachyon.ticket2ride.game.ConsoleColors.*;
 
 /**
  * The main class for this application.
@@ -148,9 +148,7 @@ public class Main {
                                 while (true) {
                                     System.out.println("Type the index of the railway that you want to claim.");
                                     for (int k = 0; k < uLen; k++) {
-                                        Railway r = unclaimedRailways.get(k);
-                                        System.out.printf("%s#%d:%s %d units; %-6s; %s to %-18s%n", PURPLE, k + 1, RESET,
-                                                r.getLength(), r.getColor().toString(), line, r.getOtherDestination(line));
+                                        System.out.println("#" + (k + 1) + ": " + unclaimedRailways.get(k).toString());
                                     }
                                     System.out.println("To exit picking a railway, type " + PURPLE + "0" + RESET);
                                     System.out.print(">  ");
@@ -226,9 +224,7 @@ public class Main {
                             System.out.println("Enter the index of the route card that you would like to return.");
                             int len = routes.size();
                             for (int k = 0; k < len; k++) {
-                                Route r = routes.get(k);
-                                System.out.println(CYAN + "#" + (k + 1) + RESET + ": " + PURPLE + r.getDest1() +
-                                        RESET + " to " + PURPLE + r.getDest2() + RESET + " : " + r.getValue());
+                                System.out.println(CYAN + "#" + (k + 1) + RESET + ": " + routes.get(k).toString());
                             }
                             System.out.println("To exit returning a card, type " + PURPLE + "0" + RESET);
                             System.out.print(">  ");
@@ -262,8 +258,7 @@ public class Main {
                     case "SEEROUTES":
                         System.out.println(BLUE + "Currently owned routes:");
                         for (Route r : g.getCurrentPlayer().getRoutes()) {
-                            System.out.println(PURPLE + r.getDest1() + RESET + " to " + PURPLE + r.getDest2() +
-                                    RESET + " : " + r.getValue());
+                            System.out.println(r);
                         }
                         continue outer;
                     case "SEECARDS":
@@ -298,9 +293,7 @@ public class Main {
                             } else if (cities.contains(line)) {
                                 // view the outward railways
                                 for (Railway r : g.getBoard().getRailways(line)) {
-                                    System.out.printf("%s%s%s to %s%-18s%s; %-6s; %d units%n", PURPLE, line,
-                                            RESET, PURPLE, r.getOtherDestination(line), RESET, r.getColor().toString(),
-                                            r.getLength());
+                                    System.out.println(r);
                                     int claimedBy = r.getClaimedBy();
                                     if (claimedBy == -1) {
                                         System.out.println("\tOwned by " + YELLOW + "nobody" + RESET);
@@ -317,8 +310,7 @@ public class Main {
                         continue outer;
                     case "SEERAILS":
                         for (Railway r : g.getCurrentPlayer().getOwnedRailways()) {
-                            System.out.printf("%s%-18s%s to %s%-18s%s; %-6s; %d units%n", PURPLE, r.getDest1(),
-                                    RESET, PURPLE, r.getDest2(), RESET, r.getColor().toString(), +r.getLength());
+                            System.out.println(r);
                         }
                         continue outer;
                     case "GETTRAINS":
